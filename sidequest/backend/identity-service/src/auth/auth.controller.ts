@@ -1,6 +1,6 @@
 
 import { Body, Controller, Delete, HttpCode, Param, Post, UnauthorizedException } from '@nestjs/common';
-import { Public, SignInService } from '@nestjs/authentication';
+import { Public, TokenService } from '@nestjs/authentication';
 import { UsersService } from '../users/users.service.js';
 import { CredentialsService } from './credentials.service.js';
 import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js'
@@ -10,14 +10,14 @@ import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './au
 export class AuthController {
   constructor(
     private readonly credentialsService: CredentialsService,
-    private readonly signInService: SignInService,
+    private readonly tokenService: TokenService,
     private readonly usersService: UsersService,
   ) {}
 
   @Post('sign-up')
+  @HttpCode(201)
   async signUp(@Body({ schema: signUpSchema }) body: SignUpDto){
     const user = await this.credentialsService.register(body.username, body.email, body.password);
-    await this.signInService.signIn(user.id, { method: 'password' });
     return user;
   }
 
@@ -28,8 +28,10 @@ export class AuthController {
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }
-    const { session } = await this.signInService.signIn(user.id, { method: 'password' });
-    return { mfaRequired: session.mfa === 'pending' };
+    return this.tokenService.issue(user.id, {
+      method: 'password',
+      claims: { amr: ['pwd'] },
+    });
   }
 
   @Delete('delete-user/:id')

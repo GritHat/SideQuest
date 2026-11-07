@@ -12,7 +12,7 @@ export class SessionAuth extends SessionCookieProvider<User> {
   ) {
     super();
     // Adds this provider to the chain the guard runs for every request.
-    registry.registerProvider(this);
+    registry.registerProvider(this, { order: 1 });
   }
 
   // Called for every request with a live session cookie.
