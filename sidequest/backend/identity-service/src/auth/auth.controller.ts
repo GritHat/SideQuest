@@ -1,38 +1,31 @@
 
 import { Body, Controller, Delete, HttpCode, Param, Post, UnauthorizedException } from '@nestjs/common';
-import { Public, SignInService } from '@nestjs/authentication';
+import { Public, TokenService } from '@nestjs/authentication';
 import { UsersService } from '../users/users.service.js';
-import { CredentialsService } from './credentials.service.js';
 import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js'
+import { AuthService } from './auth.service.js';
 
 @Public()
 @Controller('auth')
 export class AuthController {
   constructor(
-    private readonly credentialsService: CredentialsService,
-    private readonly signInService: SignInService,
     private readonly usersService: UsersService,
+    private readonly authService: AuthService
   ) {}
 
   @Post('sign-up')
-  async signUp(@Body({ schema: signUpSchema }) body: SignUpDto){
-    const user = await this.credentialsService.register(body.username, body.email, body.password);
-    await this.signInService.signIn(user.id, { method: 'password' });
-    return user;
+  @HttpCode(201)
+  async signUp(@Body({ schema: signUpSchema }) user: SignUpDto){
+    return this.authService.SignUp(user);
   }
 
   @Post('sign-in')
   @HttpCode(200)
-  async signIn(@Body({ schema: signInSchema }) body: SignInDto) {
-    const user = await this.credentialsService.verify(body.email, body.password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-    const { session } = await this.signInService.signIn(user.id, { method: 'password' });
-    return { mfaRequired: session.mfa === 'pending' };
+  async signIn(@Body({ schema: signInSchema }) user: SignInDto) {
+    return this.authService.SignIn(user);
   }
 
-  @Delete('delete-user/:id')
+  @Delete('delete-user/:id')//Da cambiare
   @HttpCode(204)
   async deleteUser(@Param('id') id: string) {
     await this.usersService.deleteUserById(id);
