@@ -22,7 +22,9 @@ export class AuthController {
   @Post('sign-in')
   @HttpCode(200)
   async signIn(@Body({ schema: signInSchema }) user: SignInDto) {
-    return this.authService.SignIn(user);
+    // TODO: Implement sign-in logic
+    //return this.authService.SignIn(user);
+    return this.authService.loginTest(user);
   }
 
   @Delete('delete-user/:id')//Da cambiare
