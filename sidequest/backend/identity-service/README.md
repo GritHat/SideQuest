@@ -28,8 +28,12 @@
 ## Project setup
 
 ```bash
-$ npm install
+$ npm ci
 ```
+
+Run the setup from the identity service directory. Set `DATABASE_URL` and a
+local `JWT_SECRET` in your ignored `.env`, then run `npx prisma generate`.
+You can generate a local JWT secret with `openssl rand -hex 32`.
 
 ## Compile and run the project
 
