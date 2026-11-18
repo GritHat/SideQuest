@@ -92,6 +92,15 @@ export class UsersRepository {
     }
     await this.prisma.user.delete({ where: { id } });
   }
+
+    async markEmailVerified(id: string, email: string): Promise<boolean> {
+      const row = await this.prisma.user.findUnique({ where: { id } });
+      if (!row || row.email !== normalizeEmail(email)) {
+        return false;
+      }
+      await this.prisma.user.update({ where: { id }, data: { emailVerified: true } });
+      return true;
+    }
 }
 
 
