@@ -33,6 +33,12 @@ $ npm install
 
 ## Compile and run the project
 
+To try email verification locally, configure `DATABASE_URL`, `JWT_SECRET`,
+`SMTP_URL` and `SMTP_FROM` in your local `.env`. Set
+`EMAIL_VERIFICATION_URL=http://localhost:5173/verify-email.html`, then serve
+the preview with `python3 -m http.server 5173 --directory public` while the API
+runs on port 3000. Without that override the link uses `APP_URL/verify-email`.
+
 ```bash
 # development
 $ npm run start

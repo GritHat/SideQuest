@@ -44,7 +44,7 @@ import { UsersModule } from './users/users.module.js';
         }),
 
         templates: new FileTemplateEngine({
-          dir: join(process.cwd(), 'src/mail/templates'),
+          dir: join(import.meta.dirname, 'mail', 'templates'),
         }),
 
         from: process.env.SMTP_FROM!,
@@ -59,9 +59,9 @@ import { UsersModule } from './users/users.module.js';
           audience: process.env.JWT_AUDIENCE,
           ttl: '15m',
         },
-        emailVerification: { 
-          url: `${process.env.APP_URL}/verify-email`,
-          ttl: '1h'
+        emailVerification: {
+          url: process.env.EMAIL_VERIFICATION_URL ?? `${process.env.APP_URL}/verify-email`,
+          ttl: '15m',
         },
         allowInMemoryStorage: true,
       }),

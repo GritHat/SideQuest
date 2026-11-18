@@ -16,6 +16,12 @@ async function bootstrap() {
     }),
   );
 
+  if (process.env.EMAIL_VERIFICATION_URL) {
+    app.enableCors({
+      origin: new URL(process.env.EMAIL_VERIFICATION_URL).origin,
+    });
+  }
+
   await app.listen(process.env.PORT ?? 3000);
 }
 
