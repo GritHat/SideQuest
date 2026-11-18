@@ -29,22 +29,22 @@
 
 ```bash
 $ npm ci
-$ npm run keys:generate
 ```
 
-Run these commands from the identity service directory. The key command creates
-a local RSA signing key at `keys/private.pem` and preserves an existing key. Git
-ignores this directory. Set `DATABASE_URL` in a local `.env`, then run
-`npx prisma generate`. The runtime can use `JWT_PRIVATE_KEY` as a PEM override.
+Run these commands from the identity service directory. Set `DATABASE_URL` in a
+local `.env`, then run `npx prisma generate`. Set `JWT_SECRET` in the runtime
+environment to a secret of at least 32 bytes. You can generate one with
+`openssl rand -base64 32`. Set `JWT_ISSUER` and `JWT_AUDIENCE` to include and
+validate those claims in access tokens.
 
 ## Compile and run the project
 
 ```bash
 # development
-$ npm run start
+$ npm run start -- --env-file .env
 
 # watch mode
-$ npm run start:dev
+$ npm run start:dev -- --env-file .env
 
 # production mode
 $ npm run start:prod
