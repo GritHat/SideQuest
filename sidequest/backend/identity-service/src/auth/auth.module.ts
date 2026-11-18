@@ -18,8 +18,8 @@ import { AuthService } from './auth.service.js';
         signOptions: {
           algorithm: 'RS256',
           keyid: jwksKeyId,
-          issuer: process.env.JWT_ISSUER,
-          audience: process.env.JWT_AUDIENCE,
+          ...(process.env.JWT_ISSUER !== undefined && { issuer: process.env.JWT_ISSUER }),
+          ...(process.env.JWT_AUDIENCE !== undefined && { audience: process.env.JWT_AUDIENCE }),
           expiresIn: '15m',
         },
       }),
