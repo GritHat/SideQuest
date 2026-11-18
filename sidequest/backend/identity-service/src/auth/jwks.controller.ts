@@ -1,20 +1,19 @@
 import {Controller, Get} from '@nestjs/common';
 import {Public} from '@nestjs/authentication';
-import { createPublicKey } from 'crypto';
-import { readFileSync } from 'node:fs';
+import { createPublicKey } from 'node:crypto';
+import { getJwksSigningKey, jwksKeyId } from './jwks-key.js';
 
 @Public()
 @Controller('.well-known')
 export class JwksController {
   @Get('jwks.json')
   getJwks() {
-    const publicKey = readFileSync('keys/public.pem', 'utf8');
-    const jwk = createPublicKey(publicKey).export({ format: 'jwk' });
+    const jwk = createPublicKey(getJwksSigningKey()).export({ format: 'jwk' });
     return {
       keys: [
         {
           ...jwk,
-          kid: 'sidequest-key-1',
+          kid: jwksKeyId,
           use: 'sig',
           alg: 'RS256',
         },

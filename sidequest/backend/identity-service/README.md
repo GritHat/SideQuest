@@ -28,8 +28,17 @@
 ## Project setup
 
 ```bash
-$ npm install
+$ npm ci
+$ npm run keys:generate
 ```
+
+Run the setup from the identity service directory. Each contributor generates a local
+RSA signing key at `keys/private.pem`. The command preserves any existing key,
+and Git ignores the `keys/` directory. The service derives the public key exposed by
+`GET /.well-known/jwks.json` from the same key it uses to sign tokens. To provide a
+deployed signing key, set `JWT_PRIVATE_KEY` to the PEM value in the runtime environment.
+
+Set `DATABASE_URL` in your local `.env` and run `npx prisma generate` before building.
 
 ## Compile and run the project
 
