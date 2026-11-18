@@ -11,6 +11,7 @@ import {
 } from '@nestjs/mail';
 import { join } from 'node:path';
 
+import { getJwksSigningKey, jwksKeyId } from './auth/jwks-key.js';
 import { AuthModule } from './auth/auth.module.js';
 import { UsersModule } from './users/users.module.js';
 
@@ -54,7 +55,9 @@ import { UsersModule } from './users/users.module.js';
     AuthenticationModule.forRootAsync({
       useFactory: () => ({
         accessToken: {
-          key: process.env.JWT_SECRET!,
+          key: getJwksSigningKey(),
+          alg: 'RS256',
+          kid: jwksKeyId,
           issuer: process.env.JWT_ISSUER,
           audience: process.env.JWT_AUDIENCE,
           ttl: '15m',

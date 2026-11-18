@@ -28,13 +28,19 @@
 ## Project setup
 
 ```bash
-$ npm install
+$ npm ci
+$ npm run keys:generate
 ```
+
+Run these commands from the identity service directory. The key command creates
+a local RSA signing key at `keys/private.pem` and preserves an existing key. Git
+ignores this directory. Set `DATABASE_URL` in a local `.env`, then run
+`npx prisma generate`. The runtime can use `JWT_PRIVATE_KEY` as a PEM override.
 
 ## Compile and run the project
 
-To try email verification locally, configure `DATABASE_URL`, `JWT_SECRET`,
-`SMTP_URL` and `SMTP_FROM` in your local `.env`. Set
+To try email verification locally, generate a local RSA key as described above
+and configure `SMTP_URL` and `SMTP_FROM` in your local `.env`. Set
 `EMAIL_VERIFICATION_URL=http://localhost:5173/verify-email.html`, then serve
 the preview with `python3 -m http.server 5173 --directory public` while the API
 runs on port 3000. Without that override the link uses `APP_URL/verify-email`.

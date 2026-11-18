@@ -1,6 +1,6 @@
 
-import { Body, Controller, Delete, HttpCode, Param, Post, UnauthorizedException } from '@nestjs/common';
-import { Public, TokenService, EmailVerificationService} from '@nestjs/authentication';
+import { Body, Controller, Delete, HttpCode, Param, Post } from '@nestjs/common';
+import { EmailVerificationService, Public } from '@nestjs/authentication';
 import { UsersService } from '../users/users.service.js';
 import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js'
 import { AuthService } from './auth.service.js';
@@ -16,16 +16,16 @@ export class AuthController {
 
   @Post('sign-up')
   @HttpCode(201)
-  async signUp(@Body({ schema: signUpSchema }) signUpCredentials: SignUpDto){
-    const user = await this.authService.SignUp(signUpCredentials);
-    await this.emailVerificationService.send({ id: user.id, email: user.email });
-    return user;
+  async signUp(@Body({ schema: signUpSchema }) user: SignUpDto){
+    const registeredUser = await this.authService.SignUp(user);
+    await this.emailVerificationService.send({ id: registeredUser.id, email: registeredUser.email });
+    return registeredUser;
   }
 
   @Post('sign-in')
   @HttpCode(200)
-  async signIn(@Body({ schema: signInSchema }) signInCredentials: SignInDto) {
-    return this.authService.SignIn(signInCredentials);
+  async signIn(@Body({ schema: signInSchema }) user: SignInDto) {
+    return this.authService.login(user);
   }
 
   @Delete('delete-user/:id')//Da cambiare
