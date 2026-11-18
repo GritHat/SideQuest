@@ -1,7 +1,7 @@
 
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
-import { getJwksSigningKey, jwksKeyId } from './jwks-key.js';
+import { readFileSync } from 'node:fs';
 import { UsersModule } from '../users/users.module.js';
 import { AuthController } from './auth.controller.js';
 import { CredentialsService } from './credentials.service.js';
@@ -14,12 +14,12 @@ import { AuthService } from './auth.service.js';
     UsersModule,
     JwtModule.registerAsync({
       useFactory: () => ({
-        privateKey: getJwksSigningKey(),
+        privateKey: process.env.JWT_PRIVATE_KEY ?? readFileSync('keys/private.pem', 'utf8'),
         signOptions: {
           algorithm: 'RS256',
-          keyid: jwksKeyId,
-          ...(process.env.JWT_ISSUER !== undefined && { issuer: process.env.JWT_ISSUER }),
-          ...(process.env.JWT_AUDIENCE !== undefined && { audience: process.env.JWT_AUDIENCE }),
+          keyid: 'sidequest-key-1',
+          ...({ issuer: process.env.JWT_ISSUER }),
+          ...({ audience: process.env.JWT_AUDIENCE }),
           expiresIn: '15m',
         },
       }),

@@ -33,7 +33,8 @@ $ npm run keys:generate
 ```
 
 Run these commands from the identity service directory. The key command creates
-a local RSA signing key at `keys/private.pem` and preserves an existing key. Git
+a local RSA signing key at `keys/private.pem` and writes its public key to
+`keys/public.pem`. It preserves an existing private key. Git
 ignores this directory. Set `DATABASE_URL` in a local `.env`, then run
 `npx prisma generate`. The runtime can use `JWT_PRIVATE_KEY` as a PEM override.
 
