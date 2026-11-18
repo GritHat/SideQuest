@@ -1,6 +1,7 @@
 
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { readFileSync } from 'node:fs';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
 import {
@@ -11,8 +12,8 @@ import {
 } from '@nestjs/mail';
 import { join } from 'node:path';
 
-import { getJwksSigningKey, jwksKeyId } from './auth/jwks-key.js';
 import { AuthModule } from './auth/auth.module.js';
+import { JwksModule } from './auth/jwks.module.js';
 import { UsersModule } from './users/users.module.js';
 
 @Module({
@@ -55,11 +56,11 @@ import { UsersModule } from './users/users.module.js';
     AuthenticationModule.forRootAsync({
       useFactory: () => ({
         accessToken: {
-          key: getJwksSigningKey(),
+          key: process.env.JWT_PRIVATE_KEY ?? readFileSync('keys/private.pem', 'utf8'),
           alg: 'RS256',
-          kid: jwksKeyId,
-          issuer: process.env.JWT_ISSUER,
-          audience: process.env.JWT_AUDIENCE,
+          kid: 'sidequest-key-1',
+          issuer: process.env.JWT_ISSUER, //Issuer of the JWT token
+          audience: process.env.JWT_AUDIENCE, //Audience of the JWT token, da cambiare dopo aver deciso il nome della core app.
           ttl: '15m',
         },
         emailVerification: {
@@ -73,6 +74,7 @@ import { UsersModule } from './users/users.module.js';
     AuthorizationModule.forRoot(),
     UsersModule,
     AuthModule,
+    JwksModule,
   ],
 })
 export class AppModule {}

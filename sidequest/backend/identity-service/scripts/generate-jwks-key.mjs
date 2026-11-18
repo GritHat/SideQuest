@@ -1,5 +1,5 @@
-import { generateKeyPairSync } from 'node:crypto';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { createPublicKey, generateKeyPairSync } from 'node:crypto';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const directory = new URL('../keys/', import.meta.url);
 const path = new URL('private.pem', directory);
@@ -17,3 +17,6 @@ try {
   if (error.code !== 'EEXIST') throw error;
   console.log('Using existing keys/private.pem.');
 }
+
+const publicKey = createPublicKey(readFileSync(path)).export({ type: 'spki', format: 'pem' });
+writeFileSync(new URL('public.pem', directory), publicKey);
