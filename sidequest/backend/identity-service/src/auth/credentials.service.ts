@@ -1,41 +1,63 @@
 
 import { ConflictException, Injectable } from '@nestjs/common';
-import { PasswordHasher } from '@nestjs/authentication';
+import argon2 from 'argon2';
 import type { User } from '../users/user.js';
 import { UsersRepository } from '../users/users.repository.js';
 
+const ARGON2_OPTIONS = {
+  type: argon2.argon2id as 2,
+  raw: false as const,
+};
+
 @Injectable()
 export class CredentialsService {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly passwordHasher: PasswordHasher,
-  ) {}
+  private dummyHashPromise?: Promise<string>;
+
+  constructor(private readonly usersRepository: UsersRepository) {}
+
+  private getDummyHash(): Promise<string> {
+    if (!this.dummyHashPromise) {
+      this.dummyHashPromise = argon2.hash('dummy-password-for-timing', ARGON2_OPTIONS);
+    }
+    return this.dummyHashPromise;
+  }
 
   async register(username: string, email: string, password: string): Promise<User> {
     if (await this.usersRepository.findByEmail(email)) {
       throw new ConflictException('Email already registered');
     }
-    // The address is unverified: anyone can type any email into a sign-up form.
-    return this.usersRepository.create(email, {
-      username,
-      passwordHash: await this.passwordHasher.hash(password),
-    });
+    if (await this.usersRepository.findByUsername(username)) {
+      throw new ConflictException('Username already taken');
+    }
+    try {
+      return await this.usersRepository.create(email, {
+        username,
+        passwordHash: await argon2.hash(password, ARGON2_OPTIONS),
+      });
+    } catch (error) {
+      if ((error as { code?: string })?.code === 'P2002') {
+        throw new ConflictException('Email or username already registered');
+      }
+      throw error;
+    }
   }
 
-  /** The user, or `null` when the email or the password is wrong. */
   async verify(email: string, password: string): Promise<User | null> {
     const found = await this.usersRepository.findCredentialsByEmail(email);
-    // With no account (or no password), verify() checks a dummy hash, so the
-    // response time does not reveal which emails are registered.
-    const valid = await this.passwordHasher.verify(password, found?.passwordHash);
-    if (!valid || !found?.passwordHash) {
+    const hash = found?.passwordHash ?? (await this.getDummyHash());
+    const valid = await argon2.verify(hash, password);
+
+    if (!valid || !found?.passwordHash || found.user.status !== 'ACTIVE') {
       return null;
     }
-    // The cost settings changed since this hash was stored: upgrade it now,
-    // while we have the plaintext.
-    if (this.passwordHasher.needsRehash(found.passwordHash)) {
-      await this.usersRepository.updatePasswordHash(found.user.id, await this.passwordHasher.hash(password));
+
+    if (argon2.needsRehash(found.passwordHash)) {
+      await this.usersRepository.updatePasswordHash(
+        found.user.id,
+        await argon2.hash(password, ARGON2_OPTIONS),
+      );
     }
+
     return found.user;
   }
 }
