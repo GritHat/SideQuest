@@ -1,33 +1,36 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { TokenService, type TokenPair } from '@nestjs/authentication';
 import { CredentialsService } from './credentials.service.js';
-import { SignInDto, SignUpDto } from './auth.dto.js';
-import { JwtService } from '@nestjs/jwt';
+import type { SignInDto, SignUpDto } from './auth.schemas.js';
 import { User } from '../users/user.js';
-
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly credentialsService: CredentialsService, 
-    private readonly jwtService: JwtService) {}
-  
-  async SignUp(dto: SignUpDto): Promise<User> {
-      const user = await this.credentialsService.register(dto.username, dto.email, dto.password);
-      if(!user)
-        throw new UnauthorizedException('Failed to create user');
-      return user;
+    private readonly credentialsService: CredentialsService,
+    private readonly tokenService: TokenService,
+  ) {}
+
+  async signUp(dto: SignUpDto): Promise<User> {
+    return this.credentialsService.register(dto.username, dto.email, dto.password);
   }
 
-  async login(dto: SignInDto): Promise<{ accessToken: string }> {
+  async login(dto: SignInDto): Promise<TokenPair> {
     const user = await this.credentialsService.verify(dto.email, dto.password);
-    if(!user)
+    if (!user) {
       throw new UnauthorizedException('Invalid email or password');
-    const payload = {
-      sub: user.id,
-      email: user.email,
-    };
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
+    }
+    return this.tokenService.issue(user.id, {
+      method: 'password',
+      claims: { email: user.email, amr: ['pwd'] },
+    });
+  }
+
+  async refresh(refreshToken: string): Promise<TokenPair> {
+    return this.tokenService.refresh(refreshToken);
+  }
+
+  async logout(refreshToken: string): Promise<void> {
+    await this.tokenService.revoke(refreshToken);
   }
 }
