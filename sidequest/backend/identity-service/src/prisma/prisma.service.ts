@@ -3,17 +3,20 @@ import {
   OnModuleInit,
   OnModuleDestroy,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import 'dotenv/config';
 
 @Injectable()
 export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  constructor() {
-    const connectionString = process.env.DATABASE_URL;
+  constructor(
+     private readonly config: ConfigService
+  ) {
+    const connectionString = config.getOrThrow<string>('DATABASE_URL');
+
 
     if (!connectionString) {
       throw new Error('DATABASE_URL is required');
