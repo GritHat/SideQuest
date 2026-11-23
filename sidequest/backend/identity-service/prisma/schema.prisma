@@ -60,3 +60,18 @@ model RefreshToken {
   @@index([sessionId])
   @@map("refresh_tokens")
 }
+
+/// Single-use email links (verification). `id` is the SHA-256 of the token, never the token.
+model EmailToken {
+  id          String   @id
+  purpose     String
+  userId      String
+  email       String
+  fingerprint String?
+  createdAt   DateTime // from the library's clock
+  expiresAt   DateTime
+
+  @@index([userId, purpose])
+  @@index([expiresAt])
+  @@map("email_tokens")
+}

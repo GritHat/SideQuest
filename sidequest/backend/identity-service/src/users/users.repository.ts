@@ -94,6 +94,18 @@ export class UsersRepository {
     return toUser(user);
   }
 
+  /**
+   * Marks the address verified only if it is still the user's current email,
+   * in one conditional write: a link sent to an old address verifies nothing.
+   */
+  async markEmailVerified(id: string, email: string): Promise<boolean> {
+    const { count } = await this.prisma.user.updateMany({
+      where: { id, email: normalizeEmail(email) },
+      data: { emailVerified: true },
+    });
+    return count === 1;
+  }
+
   async deleteUserById(id: string): Promise<void> {
     if (!(await this.findById(id))) {
       throw new Error(`User with id ${id} not found`);

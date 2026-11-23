@@ -3,6 +3,7 @@ import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import type { NestExpressApplication } from '@nestjs/platform-express';
+import { InMemoryMailTransport, MailTransport } from '@nestjs/mail';
 import { Test } from '@nestjs/testing';
 import { ThrottlerStorage } from '@nestjs/throttler';
 import request from 'supertest';
@@ -30,6 +31,7 @@ const { UsersService } = await import('../src/users/users.service.js');
 
 const PASSWORD = 'Abcdefgh12!x';
 let app: NestExpressApplication;
+const mailbox = new InMemoryMailTransport();
 const http = () => request(app.getHttpServer());
 
 /** Cookie name → { value, attributes } from a response's Set-Cookie headers. */
@@ -56,7 +58,10 @@ async function registerAndLogin(account = newAccount()) {
 }
 
 beforeAll(async () => {
-  const moduleRef = await Test.createTestingModule({ imports: [AppModule] }).compile();
+  const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+    .overrideProvider(MailTransport)
+    .useValue(mailbox)
+    .compile();
   app = configureApp(moduleRef.createNestApplication<NestExpressApplication>(APP_OPTIONS));
   await app.init();
 });
@@ -241,5 +246,48 @@ describe('JWKS', () => {
     // A tampered payload must not verify.
     const forged = Buffer.from(`${header}.${Buffer.from('{"sub":"admin","roles":["admin"]}').toString('base64url')}`);
     expect(verify('RSA-SHA256', forged, publicKey, Buffer.from(signature, 'base64url'))).toBe(false);
+  });
+});
+
+describe('email verification', () => {
+  const tokenFor = (email: string) =>
+    mailbox.assertSent({ to: email }).link(/verify-email/).searchParams.get('token') ?? '';
+
+  it('registration sends a single-use link that verifies the address', async () => {
+    const { account, login } = await registerAndLogin();
+    const sent = mailbox.assertSent({ to: account.email });
+    expect(sent.subject).toMatch(/SideQuest/);
+    expect(sent.link(/verify-email/).origin).toBe('http://localhost:5173');
+
+    const token = tokenFor(account.email);
+    const verified = await http().post('/api/identity/email/verify').send({ token }).expect(200);
+    expect(verified.body).toEqual({ email: account.email, emailVerified: true });
+
+    // Single use.
+    await http().post('/api/identity/email/verify').send({ token }).expect(400);
+
+    // The profile reflects it (a fresh token loads the user again).
+    const relogin = await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(200);
+    const me = await http().get('/api/identity/me').set('Cookie', cookieHeader(relogin, 'sq_access')).expect(200);
+    expect(me.body.emailVerified).toBe(true);
+    void login;
+  });
+
+  it('rejects unknown tokens (400 problem+json) and malformed bodies (400)', async () => {
+    const res = await http().post('/api/identity/email/verify').send({ token: 'not-a-real-token' }).expect(400);
+    expect(res.headers['content-type']).toMatch(/problem\+json/);
+    await http().post('/api/identity/email/verify').send({}).expect(400);
+  });
+
+  it('resend: 202 with a new link when unverified, 409 once verified, 401 without a session', async () => {
+    const { account, login } = await registerAndLogin();
+    mailbox.clear();
+    await http().post('/api/identity/email/verification').set('Cookie', cookieHeader(login, 'sq_access')).expect(202);
+    const token = tokenFor(account.email);
+    await http().post('/api/identity/email/verify').send({ token }).expect(200);
+
+    const relogin = await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(200);
+    await http().post('/api/identity/email/verification').set('Cookie', cookieHeader(relogin, 'sq_access')).expect(409);
+    await http().post('/api/identity/email/verification').expect(401);
   });
 });
