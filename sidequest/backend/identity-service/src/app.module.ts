@@ -1,14 +1,17 @@
 
 import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
+import { FileTemplateEngine, LogMailTransport, MailModule, SmtpTransport } from '@nestjs/mail';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
 import { JwksModule } from './auth/jwks.module.js';
 import { UsersModule } from './users/users.module.js';
 import { PrismaRefreshTokenStore } from './prisma/prisma.refreshtoken.store.js';
+import { PrismaEmailTokenStore } from './prisma/prisma.email-token.store.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envSchema } from './config/env.schema.js';
@@ -33,8 +36,24 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
           ttl: '30d',
           absoluteTtl: '90d',
         },
+        emailVerification: {
+          url: config.getOrThrow<string>('EMAIL_VERIFICATION_URL'),
+          ttl: '24h',
+        },
       }),
       inject: [ConfigService],
+    }),
+    MailModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => {
+        const smtpUrl = config.get<string>('SMTP_URL');
+        return {
+          // No SMTP configured: the email (and its link) is written to the log.
+          transport: smtpUrl ? new SmtpTransport({ url: smtpUrl }) : new LogMailTransport(),
+          templates: new FileTemplateEngine({ dir: join(import.meta.dirname, 'mail', 'templates') }),
+          from: config.getOrThrow<string>('MAIL_FROM'),
+        };
+      },
     }),
     AuthorizationModule.forRoot(),
     PrismaModule,
@@ -48,6 +67,7 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
   ],
   providers: [
     PrismaRefreshTokenStore,
+    PrismaEmailTokenStore,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_FILTER, useClass: ProblemDetailsFilter },
   ],

@@ -1,18 +1,28 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { TokenService, type TokenPair } from '@nestjs/authentication';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { EmailVerificationService, TokenService, type TokenPair } from '@nestjs/authentication';
 import { CredentialsService } from './credentials.service.js';
 import type { SignInDto, SignUpDto } from './auth.schemas.js';
 import { User } from '../users/user.js';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly credentialsService: CredentialsService,
     private readonly tokenService: TokenService,
+    private readonly emailVerificationService: EmailVerificationService,
   ) {}
 
   async signUp(dto: SignUpDto): Promise<User> {
-    return this.credentialsService.register(dto.username, dto.email, dto.password);
+    const user = await this.credentialsService.register(dto.username, dto.email, dto.password);
+    try {
+      await this.emailVerificationService.send({ id: user.id, email: user.email });
+    } catch (error) {
+      // The account exists either way; the user can ask for the link again.
+      this.logger.warn(`Verification email not sent for user ${user.id}: ${String(error)}`);
+    }
+    return user;
   }
 
   async login(dto: SignInDto): Promise<TokenPair> {
