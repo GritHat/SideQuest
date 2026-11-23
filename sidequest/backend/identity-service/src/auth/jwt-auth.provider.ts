@@ -18,9 +18,11 @@ export class JwtAuth extends JwtBearerProvider<User> {
   override authenticate(context: ExecutionContext) {
     if (context.getType() === 'http') {
       const req = context.switchToHttp().getRequest<Request>();
-      const cookies = req.cookies as Record<string, string | undefined> | undefined;
-      if (!req.headers.authorization && cookies?.access_token) {
-        req.headers.authorization = `Bearer ${cookies.access_token}`;
+      if (!req.headers.authorization) {
+        const sqAccess = extractCookie(req.headers.cookie, 'sq_access');
+        if (sqAccess) {
+          req.headers.authorization = `Bearer ${sqAccess}`;
+        }
       }
     }
     return super.authenticate(context);
@@ -31,4 +33,16 @@ export class JwtAuth extends JwtBearerProvider<User> {
     const user = await this.usersRepository.findById(sub);
     return user?.status === 'ACTIVE' ? user : null;
   }
+}
+
+function extractCookie(cookieHeader: string | undefined, name: string): string | undefined {
+  if (!cookieHeader) return undefined;
+  const prefix = `${name}=`;
+  for (const part of cookieHeader.split(';')) {
+    const trimmed = part.trim();
+    if (trimmed.startsWith(prefix)) {
+      return decodeURIComponent(trimmed.slice(prefix.length));
+    }
+  }
+  return undefined;
 }
