@@ -178,6 +178,20 @@
           "Auth"
         ]
       }
+    },
+    "/.well-known/jwks.json": {
+      "get": {
+        "operationId": "JwksController_getJwks",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Jwks"
+        ]
+      }
     }
   },
   "info": {

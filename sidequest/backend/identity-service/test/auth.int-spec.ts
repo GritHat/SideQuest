@@ -1,4 +1,4 @@
-import { generateKeyPairSync, randomUUID } from 'node:crypto';
+import { createPublicKey, generateKeyPairSync, randomUUID, verify } from 'node:crypto';
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -212,5 +212,34 @@ describe('cross-cutting protections', () => {
 
   it('health is public', async () => {
     await http().get('/api/identity/health').expect(200, { status: 'ok' });
+  });
+});
+
+describe('JWKS', () => {
+  it('publishes only the public key, with kid and alg, outside the /api/identity prefix', async () => {
+    const res = await http().get('/.well-known/jwks.json').expect(200);
+    expect(res.headers['cache-control']).toBe('public, max-age=300');
+    expect(res.body.keys).toHaveLength(1);
+    const [key] = res.body.keys;
+    expect(key).toMatchObject({ kty: 'RSA', kid: 'test-key', use: 'sig', alg: 'RS256' });
+    for (const privatePart of ['d', 'p', 'q', 'dp', 'dq', 'qi']) {
+      expect(key).not.toHaveProperty(privatePart);
+    }
+    await http().get('/api/identity/.well-known/jwks.json').expect(404);
+  });
+
+  it('verifies the signature of an access token issued by login, as the other services will', async () => {
+    const { login } = await registerAndLogin();
+    const token = cookies(login).sq_access.value;
+    const [header, payload, signature] = token.split('.');
+    const { keys } = (await http().get('/.well-known/jwks.json').expect(200)).body;
+    const jwk = keys.find((k: { kid: string }) => k.kid === JSON.parse(Buffer.from(header, 'base64url').toString()).kid);
+
+    const publicKey = createPublicKey({ key: jwk, format: 'jwk' });
+    const signed = Buffer.from(`${header}.${payload}`);
+    expect(verify('RSA-SHA256', signed, publicKey, Buffer.from(signature, 'base64url'))).toBe(true);
+    // A tampered payload must not verify.
+    const forged = Buffer.from(`${header}.${Buffer.from('{"sub":"admin","roles":["admin"]}').toString('base64url')}`);
+    expect(verify('RSA-SHA256', forged, publicKey, Buffer.from(signature, 'base64url'))).toBe(false);
   });
 });
