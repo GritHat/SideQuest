@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Public } from '@nestjs/authentication';
 import { Can } from '@nestjs/authorization';
 import { Throttle } from '@nestjs/throttler';
-import type { Request, Response } from 'express';
+import type { Response } from 'express';
 import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js';
 import { AuthService } from './auth.service.js';
 
@@ -48,14 +48,6 @@ export class AuthController {
   private setAuthCookies(res: Response, tokens: { accessToken: string; refreshToken: string }) {
     res.cookie('sq_access', tokens.accessToken, this.accessCookieOpts);
     res.cookie('sq_refresh', tokens.refreshToken, this.refreshCookieOpts);
-  }
-
-  private getRefreshToken(req: Request): string {
-    const token = (req.cookies as Record<string, string | undefined> | undefined)?.refresh_token;
-    if (!token) {
-      throw new UnauthorizedException('Missing refresh token');
-    }
-    return token;
   }
 
   @Public()

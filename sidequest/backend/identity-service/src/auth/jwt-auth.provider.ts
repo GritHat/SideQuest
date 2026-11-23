@@ -41,7 +41,11 @@ function extractCookie(cookieHeader: string | undefined, name: string): string |
   for (const part of cookieHeader.split(';')) {
     const trimmed = part.trim();
     if (trimmed.startsWith(prefix)) {
-      return decodeURIComponent(trimmed.slice(prefix.length));
+      try {
+        return decodeURIComponent(trimmed.slice(prefix.length));
+      } catch {
+        return undefined; // malformed encoding: treat as no token (401), not as a 500
+      }
     }
   }
   return undefined;

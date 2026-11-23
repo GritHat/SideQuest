@@ -181,14 +181,21 @@
     }
   },
   "info": {
-    "title": "Identity Service",
-    "description": "",
+    "title": "SideQuest Identity Service",
+    "description": "Accounts, sessions and access tokens. Errors use RFC 9457 problem+json.",
     "version": "1.0",
     "contact": {}
   },
   "tags": [],
   "servers": [],
   "components": {
+    "securitySchemes": {
+      "cookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "sq_access"
+      }
+    },
     "schemas": {}
   }
 }

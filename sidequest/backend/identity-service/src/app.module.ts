@@ -1,7 +1,7 @@
 
 import { readFileSync } from 'node:fs';
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
@@ -12,6 +12,7 @@ import { PrismaModule } from './prisma/prisma.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envSchema } from './config/env.schema.js';
 import { HealthController } from './health/health.controller.js';
+import { ProblemDetailsFilter } from './common/problem-details.filter.js';
 
 
 @Module({
@@ -46,6 +47,7 @@ import { HealthController } from './health/health.controller.js';
   providers: [
     PrismaRefreshTokenStore,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
+    { provide: APP_FILTER, useClass: ProblemDetailsFilter },
   ],
   controllers: [
     HealthController
