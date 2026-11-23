@@ -1,0 +1,82 @@
+# Quality gates (manifesto §7): every check must pass before a merge into development or main.
+name: CI
+
+on:
+  pull_request:
+    branches: [development, main]
+  push:
+    branches: [development, main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  identity-service:
+    name: identity-service
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: sidequest/backend/identity-service
+    services:
+      # Empty database used only to check that the migrations produce the Prisma schema.
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: identity_schema_check
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U ci -d identity_schema_check"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: sidequest/backend/identity-service/package-lock.json
+
+      - name: Install (also generates the Prisma client)
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint (warnings fail the build)
+        run: npm run lint -- --deny-warnings
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: OpenAPI contract is up to date
+        run: |
+          npm run openapi:generate
+          if ! git diff --exit-code -- openapi.json; then
+            echo "::error file=sidequest/backend/identity-service/openapi.json::openapi.json is stale: run 'npm run openapi:generate' and commit it."
+            exit 1
+          fi
+
+      - name: Migrations match the Prisma schema
+        env:
+          DATABASE_URL: postgresql://ci:ci@localhost:5432/identity_schema_check
+        run: |
+          npx prisma migrate deploy
+          if ! npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code; then
+            echo "::error file=sidequest/backend/identity-service/prisma/schema.prisma::The schema changed without a migration: run 'npx prisma migrate dev --name <change>' and commit it."
+            exit 1
+          fi
+
+      - name: Integration tests (PostgreSQL via Testcontainers)
+        run: npm run test:integration
