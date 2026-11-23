@@ -4,7 +4,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 enum Role {
@@ -29,4 +28,35 @@ model User {
   status        UserStatus @default(ACTIVE)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  @@map("users")
+}
+
+/// One refresh-token family = one signed-in session.
+/// `userId` is deliberately not a foreign key: the store must accept any user id
+/// (authenticationStoreContract), and account deletion revokes every session first.
+/// `userId`/`expiresAt` are optional because a revocation may precede the first save.
+model Session {
+  id        String         @id
+  userId    String?
+  expiresAt DateTime?
+  revokedAt DateTime?
+  tokens    RefreshToken[]
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model RefreshToken {
+  id        String    @id // SHA-256 del token
+  sessionId String
+  userId    String
+  createdAt DateTime // dal clock di TokenService
+  expiresAt DateTime
+  usedAt    DateTime?
+  claims    Json?
+  session   Session   @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([sessionId])
+  @@map("refresh_tokens")
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { Role as PrismaRole, User as PrismaUser } from '@prisma/client';
+import type { User as PrismaUser, UserStatus } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { User } from './user.js';
@@ -74,6 +74,14 @@ export class UsersRepository {
     });
   }
 
+  async updateStatus(id: string, status: UserStatus): Promise<User> {
+    const user = await this.prisma.user.update({
+      where: { id },
+      data: { status },
+    });
+    return toUser(user);
+  }
+
   async updateEmail(id: string, email: string): Promise<User | null> {
     const user = await this.prisma.user.update({
       where: { id },
@@ -98,10 +106,11 @@ export class UsersRepository {
 const normalizeEmail = (email: string) => email.trim().normalize('NFC').toLowerCase();
 const normalizeUsername = (username: string) => username.trim();
 
-const toUser = ({ id, username, email, emailVerified, role }: PrismaUser): User => ({
+const toUser = ({ id, username, email, emailVerified, status, role }: PrismaUser): User => ({
   id,
   username,
   email,
   emailVerified,
+  status,
   roles: [role.toLowerCase() as User['roles'][number]],
 });

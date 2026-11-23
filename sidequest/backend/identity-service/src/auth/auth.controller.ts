@@ -1,42 +1,106 @@
+import { Body, Controller, Cookies, HttpCode, Post, Res, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Public } from '@nestjs/authentication';
+import { Can } from '@nestjs/authorization';
+import { Throttle } from '@nestjs/throttler';
+import type { Response } from 'express';
+import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js';
+import { AuthService } from './auth.service.js';
 
-import { Body, Controller, Delete, HttpCode, Param, Post, UnauthorizedException } from '@nestjs/common';
-import { Public, SignInService } from '@nestjs/authentication';
-import { UsersService } from '../users/users.service.js';
-import { CredentialsService } from './credentials.service.js';
-import { signInSchema, signUpSchema, type SignInDto, type SignUpDto } from './auth.schemas.js'
-
-@Public()
-@Controller('auth')
+@Controller('')
 export class AuthController {
+  private readonly accessCookieOpts: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: 'strict';
+    path: string;
+    maxAge: number;
+  };
+  private readonly refreshCookieOpts: {
+    httpOnly: boolean;
+    secure: boolean;
+    sameSite: 'strict';
+    path: string;
+    maxAge: number;
+  };
+
   constructor(
-    private readonly credentialsService: CredentialsService,
-    private readonly signInService: SignInService,
-    private readonly usersService: UsersService,
-  ) {}
-
-  @Post('sign-up')
-  async signUp(@Body({ schema: signUpSchema }) body: SignUpDto){
-    const user = await this.credentialsService.register(body.username, body.email, body.password);
-    await this.signInService.signIn(user.id, { method: 'password' });
-    return user;
+    private readonly authService: AuthService,
+    config: ConfigService,
+  ) {
+    const baseOpts = {
+      httpOnly: true,
+      secure: config.get<string>('NODE_ENV') === 'production',
+      sameSite: 'strict' as const,
+    };
+    this.accessCookieOpts = {
+      ...baseOpts,
+      path: '/api',
+      maxAge: 10 * 60 * 1000,
+    };
+    this.refreshCookieOpts = {
+      ...baseOpts,
+      path: '/api/identity',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    };
   }
 
-  @Post('sign-in')
+  private setAuthCookies(res: Response, tokens: { accessToken: string; refreshToken: string }) {
+    res.cookie('sq_access', tokens.accessToken, this.accessCookieOpts);
+    res.cookie('sq_refresh', tokens.refreshToken, this.refreshCookieOpts);
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @Post('register')
+  @HttpCode(201)
+  async signUp(@Body({ schema: signUpSchema }) user: SignUpDto) {
+    return this.authService.signUp(user);
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @Post('login')
   @HttpCode(200)
-  async signIn(@Body({ schema: signInSchema }) body: SignInDto) {
-    const user = await this.credentialsService.verify(body.email, body.password);
-    if (!user) {
-      throw new UnauthorizedException('Invalid email or password');
-    }
-    const { session } = await this.signInService.signIn(user.id, { method: 'password' });
-    return { mfaRequired: session.mfa === 'pending' };
+  async signIn(
+    @Body({ schema: signInSchema }) user: SignInDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    this.setAuthCookies(res, await this.authService.login(user));
+    return { ok: true };
   }
 
-  @Delete('delete-user/:id')
+  @Public()
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @Post('refresh')
+  @HttpCode(200)
+  async refresh(
+    @Cookies('sq_refresh') refreshToken: string | undefined,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('Missing refresh token');
+    }
+    this.setAuthCookies(res, await this.authService.refresh(refreshToken));
+    return { ok: true };
+  }
+
+  @Public()
+  @Post('logout')
   @HttpCode(204)
-  async deleteUser(@Param('id') id: string) {
-    await this.usersService.deleteUserById(id);
+  @Can.Anyone()
+  async logout(
+    @Cookies('sq_refresh') refreshToken: string | undefined,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    if (refreshToken) {
+      try {
+        await this.authService.logout(refreshToken);
+      } catch {
+        // Ignore revocation errors on logout
+      }
+    }
+    res.clearCookie('sq_access', this.accessCookieOpts);
+    res.clearCookie('sq_refresh', this.refreshCookieOpts);
   }
 }
-
-
