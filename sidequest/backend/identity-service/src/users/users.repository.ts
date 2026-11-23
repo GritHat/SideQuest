@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import type { User as PrismaUser } from '@prisma/client';
+import type { User as PrismaUser, UserStatus } from '@prisma/client';
 
 import { PrismaService } from '../prisma/prisma.service.js';
 import type { User } from './user.js';
@@ -72,6 +72,14 @@ export class UsersRepository {
       where: { id },
       data: { passwordHash },
     });
+  }
+
+  async updateStatus(id: string, status: UserStatus): Promise<User> {
+    const user = await this.prisma.user.update({
+      where: { id },
+      data: { status },
+    });
+    return toUser(user);
   }
 
   async updateEmail(id: string, email: string): Promise<User | null> {
