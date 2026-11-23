@@ -1,0 +1,27 @@
+# main only receives checkpoint releases from development (Guida Git §5, manifesto §8).
+name: Branch policy
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, reopened, synchronize, edited]
+
+permissions: {}
+
+jobs:
+  main-source:
+    name: main-accepts-only-development
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Require development of this repository as the source branch
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REF" != "development" ] || [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            echo "::error::Pull requests into main must come from '$BASE_REPO:development' (got '$HEAD_REPO:$HEAD_REF'). Open your PR against development instead."
+            exit 1
+          fi
+          echo "Source branch is development: ok."

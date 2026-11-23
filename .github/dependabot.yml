@@ -1,0 +1,11 @@
+# Keeps the SHA-pinned GitHub Actions up to date. Application dependencies are updated
+# deliberately in dedicated PRs (manifesto §8: no major updates after 1/3/2027).
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    target-branch: development
+    commit-message:
+      prefix: ci
