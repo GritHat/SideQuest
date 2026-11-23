@@ -28,15 +28,18 @@ model User {
   status        UserStatus @default(ACTIVE)
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  sessions      Session[]
+  @@map("users")
 }
 
+/// One refresh-token family = one signed-in session.
+/// `userId` is deliberately not a foreign key: the store must accept any user id
+/// (authenticationStoreContract), and account deletion revokes every session first.
+/// `userId`/`expiresAt` are optional because a revocation may precede the first save.
 model Session {
   id        String         @id
   userId    String?
   expiresAt DateTime?
   revokedAt DateTime?
-  user      User?          @relation(fields: [userId], references: [id], onDelete: Cascade)
   tokens    RefreshToken[]
 
   @@index([userId])

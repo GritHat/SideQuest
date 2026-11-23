@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { PrismaService } from "./prisma.service.js";
 import { AuthenticationStorage, RefreshTokenRecord, RefreshTokenStore } from "@nestjs/authentication";
 import { Prisma } from ".prisma/client/default.js";
@@ -20,11 +20,12 @@ export class PrismaRefreshTokenStore implements RefreshTokenStore{
                 where: { id: record.familyId },
                 create: {
                     id: record.familyId,
-                    user: { connect: { id: record.userId } },
+                    userId: record.userId,
                     expiresAt: record.familyExpiresAt,
                 },
+                // Never touch revokedAt here: a revoked family must stay revoked.
                 update: {
-                    user: { connect: { id: record.userId } },
+                    userId: record.userId,
                     expiresAt: record.familyExpiresAt,
                 },
             } 
@@ -63,7 +64,8 @@ export class PrismaRefreshTokenStore implements RefreshTokenStore{
             expiresAt: raw.expiresAt,
             familyExpiresAt: raw.session.expiresAt ?? raw.expiresAt,
             usedAt: raw.usedAt ?? undefined,
-            claims: raw.claims as Record<string, unknown> | undefined,
+            // The contract wants absent optional fields as undefined, never null.
+            claims: (raw.claims ?? undefined) as Record<string, unknown> | undefined,
         };
     }
 
