@@ -1,4 +1,4 @@
-import { BadRequestException, StandardSchemaValidationPipe } from '@nestjs/common';
+import { BadRequestException, RequestMethod, StandardSchemaValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import type { NestApplicationOptions } from '@nestjs/common';
 import type { NestExpressApplication } from '@nestjs/platform-express';
@@ -19,7 +19,8 @@ export function configureApp(app: NestExpressApplication): NestExpressApplicatio
   app.enableCsrfProtection({ trustedOrigins: config.get<string[]>('TRUSTED_ORIGINS', []) });
   app.useSecurityHeaders();
   app.enableShutdownHooks();
-  app.setGlobalPrefix(API_PREFIX);
+  // The JWKS lives at the well-known path that token verifiers expect.
+  app.setGlobalPrefix(API_PREFIX, { exclude: [{ path: '.well-known/jwks.json', method: RequestMethod.GET }] });
   app.useGlobalPipes(
     new StandardSchemaValidationPipe({
       exceptionFactory: (issues) =>

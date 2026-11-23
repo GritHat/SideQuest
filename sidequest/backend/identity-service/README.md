@@ -41,6 +41,8 @@ The API listens on `http://localhost:3000/api/identity`. In development, Swagger
 | `DELETE /admin/users/:id` | Admin | Delete a user and revoke all their sessions |
 | `GET /health` | Public | Health check |
 
+Outside the prefix, `GET /.well-known/jwks.json` (public, cached 5 minutes) publishes the RS256 public key with its `kid`, so the other services verify access tokens locally.
+
 ## Demo accounts
 
 All seeded accounts use the password `Password123!`, for local demos only.
