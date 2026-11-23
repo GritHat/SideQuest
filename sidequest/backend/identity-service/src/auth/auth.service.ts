@@ -22,7 +22,7 @@ export class AuthService {
     }
     return this.tokenService.issue(user.id, {
       method: 'password',
-      claims: { email: user.email, amr: ['pwd'] },
+      claims: { roles: user.roles },
     });
   }
 
