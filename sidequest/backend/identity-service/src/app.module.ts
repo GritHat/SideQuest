@@ -6,30 +6,51 @@ import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
-import { RedisRefreshTokenStore } from './auth/redis-refresh-token.store.js';
 import { UsersModule } from './users/users.module.js';
+import { PrismaRefreshTokenStore } from './prisma/prisma.refreshtoken.store.js';
+import { PrismaModule } from './prisma/prisma.module.js';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { envSchema } from './config/env.schema.js';
+import { HealthController } from './health/health.controller.js';
+
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 20 }]),
+    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 100 }]),
     AuthenticationModule.forRootAsync({
-      useFactory: () => ({
+      useFactory: (config: ConfigService) => ({
         accessToken: {
-          key: process.env.JWT_PRIVATE_KEY ?? readFileSync('keys/private.pem', 'utf8'),
+          key: readFileSync(config.getOrThrow('JWT_PRIVATE_KEY_FILE'), 'utf8'),
           alg: 'RS256',
-          issuer: process.env.JWT_ISSUER || undefined,
-          audience: process.env.JWT_AUDIENCE || undefined,
-          ttl: '15m',
+          kid: config.getOrThrow('JWT_KEY_ID'),
+          issuer: config.getOrThrow('JWT_ISSUER'),
+          audience: config.getOrThrow('JWT_AUDIENCE'),
+          ttl: '10m',
+        },
+        refreshToken: {
+          ttl: '30d',
+          absoluteTtl: '90d',
         },
       }),
+      inject: [ConfigService],
     }),
     AuthorizationModule.forRoot(),
+    PrismaModule,
     UsersModule,
     AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validate: (config) => envSchema.parse(config),
+    }),
   ],
   providers: [
-    RedisRefreshTokenStore,
+    PrismaRefreshTokenStore,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
   ],
+  controllers: [
+    HealthController
+  ],
 })
+
+
 export class AppModule {}
