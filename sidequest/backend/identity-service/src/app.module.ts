@@ -6,6 +6,7 @@ import { AuthenticationModule } from '@nestjs/authentication';
 import { AuthorizationModule } from '@nestjs/authorization';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
+import { JwksModule } from './auth/jwks.module.js';
 import { UsersModule } from './users/users.module.js';
 import { PrismaRefreshTokenStore } from './prisma/prisma.refreshtoken.store.js';
 import { PrismaModule } from './prisma/prisma.module.js';
@@ -39,6 +40,7 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
     PrismaModule,
     UsersModule,
     AuthModule,
+    JwksModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validate: (config) => envSchema.parse(config),
