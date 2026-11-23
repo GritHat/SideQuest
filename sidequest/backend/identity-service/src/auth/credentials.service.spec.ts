@@ -24,11 +24,12 @@ function fakeRepository(overrides: Partial<Record<keyof UsersRepository, unknown
 
 describe('CredentialsService.register(username, email, password)', () => {
   it('creates the user with an Argon2id hash, never the plain password', async () => {
-    const repo = fakeRepository();
+    const create = vi.fn(async (email: string, { username }: { username: string }) => makeUser({ email, username }));
+    const repo = fakeRepository({ create });
     const user = await new CredentialsService(repo as unknown as UsersRepository).register('explorer', 'explorer@x.it', PASSWORD);
 
     expect(user.username).toBe('explorer');
-    const { passwordHash } = repo.create.mock.calls[0][1] as { passwordHash: string };
+    const { passwordHash } = create.mock.calls[0][1] as unknown as { passwordHash: string };
     expect(passwordHash).toMatch(/^\$argon2id\$/);
     expect(passwordHash).not.toContain(PASSWORD);
     expect(await argon2.verify(passwordHash, PASSWORD)).toBe(true);
