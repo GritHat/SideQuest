@@ -11,7 +11,10 @@ export const envSchema = z.object({
     TRUSTED_ORIGINS: z.string().default('http://localhost:3000').transform((val) => val.split(',').map((origin) => origin.trim())),
     // Page that receives ?token=… and POSTs it to /api/identity/email/verify (the SPA route).
     EMAIL_VERIFICATION_URL: z.string().url().default('http://localhost:5173/verify-email'),
+    // Page that receives ?token=… and POSTs it to /api/identity/password/reset (the SPA route).
+    PASSWORD_RESET_URL: z.string().url().default('http://localhost:5173/reset-password'),
     // Without SMTP_URL, emails are written to the log: the demo needs no external service.
+
     SMTP_URL: z.preprocess((v) => (v === '' ? undefined : v), z.string().url().optional()),
     MAIL_FROM: z.string().min(1).default('SideQuest <no-reply@sidequest.local>'),
     TRUST_PROXY: z.string().default('false').transform((val) => {
