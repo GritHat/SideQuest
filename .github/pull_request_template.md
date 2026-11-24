@@ -1,4 +1,4 @@
-<!-- Titolo nel formato Conventional Commits, es. "feat(quest): add mission draft endpoint". Base: development. -->
+<!-- Titolo nel formato Conventional Commits, es. "feat(quest): add mission draft endpoint". Base: development. Si integra con merge commit (ADR-19): anche ogni commit del branch segue Conventional Commits, e il branch resta attivo dopo il merge. -->
 
 ## Cosa e perché
 
