@@ -291,3 +291,74 @@ describe('email verification', () => {
     await http().post('/api/identity/email/verification').expect(401);
   });
 });
+
+describe('password reset', () => {
+  const NEW_PASSWORD = 'NewPassword99!z';
+
+  async function waitForResetLink(email: string): Promise<URL> {
+    const deadline = Date.now() + 2_000;
+    while (Date.now() < deadline) {
+      try {
+        return mailbox.assertSent({ to: email }).link(/reset-password/);
+      } catch {
+        await new Promise((r) => setTimeout(r, 25));
+      }
+    }
+    return mailbox.assertSent({ to: email }).link(/reset-password/);
+  }
+
+  it('resets the password with Argon2id, revokes existing sessions, marks email verified, and is single-use', async () => {
+    const { account, id, login } = await registerAndLogin();
+    mailbox.clear();
+
+    await http().post('/api/identity/password/forgot').send({ email: account.email }).expect(202);
+    const link = await waitForResetLink(account.email);
+    expect(link.origin).toBe('http://localhost:5173');
+    const token = link.searchParams.get('token') ?? '';
+
+    const reset = await http()
+      .post('/api/identity/password/reset')
+      .send({ token, password: NEW_PASSWORD })
+      .expect(200);
+    expect(reset.body).toEqual({ ok: true });
+
+    // Stored hash must remain Argon2id (RNF-01).
+    const row = await app.get(PrismaService).user.findUniqueOrThrow({ where: { id } });
+    expect(row.passwordHash).toMatch(/^\$argon2id\$/);
+    expect(row.emailVerified).toBe(true);
+
+    // Old refresh token is revoked and old password no longer works.
+    await http().post('/api/identity/refresh').set('Cookie', cookieHeader(login, 'sq_refresh')).expect(401);
+    await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(401);
+
+    // New password works for login.
+    await http().post('/api/identity/login').send({ email: account.email, password: NEW_PASSWORD }).expect(200);
+
+    // Single-use link.
+    const reused = await http()
+      .post('/api/identity/password/reset')
+      .send({ token, password: 'AnotherPass88!w' })
+      .expect(400);
+    expect(reused.headers['content-type']).toMatch(/problem\+json/);
+  });
+
+  it('answers 202 for unknown or suspended accounts without sending mail, and rejects weak passwords', async () => {
+    mailbox.clear();
+    await http().post('/api/identity/password/forgot').send({ email: 'nobody@sidequest.test' }).expect(202);
+
+    const { account, id } = await registerAndLogin();
+    mailbox.clear();
+    await app.get(UsersService).changeStatus(id, 'SUSPENDED', { id: 'admin', roles: ['admin'] } as never);
+    await http().post('/api/identity/password/forgot').send({ email: account.email }).expect(202);
+
+    await new Promise((r) => setTimeout(r, 100));
+    mailbox.assertNotSent({ to: 'nobody@sidequest.test' });
+    mailbox.assertNotSent({ to: account.email });
+
+    const weak = await http()
+      .post('/api/identity/password/reset')
+      .send({ token: 'a'.repeat(43), password: 'weakpassword' })
+      .expect(400);
+    expect(weak.headers['content-type']).toMatch(/problem\+json/);
+  });
+});
