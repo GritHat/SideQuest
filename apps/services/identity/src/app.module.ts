@@ -40,6 +40,10 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
           url: config.getOrThrow<string>('EMAIL_VERIFICATION_URL'),
           ttl: '24h',
         },
+        passwordReset: {
+          url: config.getOrThrow<string>('PASSWORD_RESET_URL'),
+          ttl: '1h',
+        },
       }),
       inject: [ConfigService],
     }),
