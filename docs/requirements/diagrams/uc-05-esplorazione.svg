@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="883px" preserveAspectRatio="none" style="width:667px;height:883px;" version="1.1" viewBox="0 0 667 883" width="667px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="401" x="136" y="12.8281">Pacchetto E (R19-R21) · Percorsi, missioni vicine e arricchimento esterno</text><!--MD5=[0fafa650b98e60262180ad0a251201fb]
+cluster SideQuest--><rect fill="#FFFFFF" height="817" style="stroke: #94A3B8; stroke-width: 1.5;" width="232.49" x="193" y="40.3241"/><text fill="#334155" font-family="Noto Sans" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="62" x="278.245" y="55.1522">SideQuest</text><ellipse cx="309.2466" cy="99.3261" fill="#F8EEDC" rx="83.5866" ry="23.742" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7466" y="92.2531">UC-19.1</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="127" x="245.7466" y="108.5972">Comporre un percorso</text><ellipse cx="309.2474" cy="181.3264" fill="#F8EEDC" rx="84.8174" ry="23.7323" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7474" y="174.2376">UC-19.2</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="129" x="244.7474" y="190.5817">Pubblicare un percorso</text><ellipse cx="309.2487" cy="641.3271" fill="#F8EEDC" rx="86.0487" ry="23.723" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7487" y="634.2233">UC-19.3</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="131" x="243.7487" y="650.5674">Consultare un percorso</text><ellipse cx="309.2513" cy="264.3195" fill="#F8EEDC" rx="74.9913" ry="23.8254" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7513" y="257.3815">UC-19.4</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="113" x="252.7513" y="273.7256">Seguire un percorso</text><ellipse cx="309.2474" cy="450.3264" fill="#F8EEDC" rx="84.8174" ry="23.7323" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7474" y="443.2376">UC-20.1</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="129" x="244.7474" y="459.5817">Cercare missioni vicine</text><ellipse cx="309.2451" cy="817.3255" fill="#F8EEDC" rx="100.2451" ry="23.6414" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7451" y="810.0883">UC-20.2</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="154" x="232.2451" y="826.4324">Usare la posizione corrente</text><ellipse cx="309.2537" cy="553.3227" fill="#F8EEDC" rx="75.0637" ry="29.7686" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7537" y="540.7364">UC-20.3</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="132" x="243.2537" y="557.0805">Scegliere una posizione</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="68" x="275.2537" y="573.4247">sulla mappa</text><ellipse cx="309.2497" cy="357.329" fill="#F8EEDC" rx="90.9797" ry="34.0349" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7497" y="340.1703">UC-21.1</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="131" x="243.7497" y="356.5144">Collegare una missione</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="139" x="239.7497" y="372.8585">a una voce enciclopedica</text><ellipse cx="309.2515" cy="729.3231" fill="#F8EEDC" rx="93.4915" ry="29.5689" style="stroke: #8A5A12; stroke-width: 1.5;"/><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="286.7515" y="716.4326">UC-21.2</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="167" x="225.7515" y="732.7767">Consultare l'approfondimento</text><text fill="#1B2438" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="87" x="265.7515" y="749.1208">di una missione</text><!--MD5=[b3bfaad5e18c67c27dc5f4ed0e01fdc9]
+entity Vis--><ellipse cx="54" cy="561.1541" fill="#FFFFFF" rx="16" ry="16" style="stroke: #1B2438; stroke-width: 1.5;"/><path d="M54,581.1541 C58,581.1541 61,581.1541 65,577.1541 C73,577.1541 81,585.1541 81,593.1541 L81,597.1541 C81,601.1541 77,605.1541 73,605.1541 L35,605.1541 C31,605.1541 27,601.1541 27,597.1541 L27,593.1541 C27,585.1541 35,577.1541 43,577.1541 C47,581.1541 50,581.1541 54,581.1541 " fill="#FFFFFF" style="stroke: #1B2438; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="27.5" y="619.4822">Visitatore</text><!--MD5=[e9740f7dbebaa8b533ee6b2a601c379d]
+entity Reg--><ellipse cx="54" cy="242.1541" fill="#FFFFFF" rx="16" ry="16" style="stroke: #1B2438; stroke-width: 1.5;"/><path d="M54,262.1541 C58,262.1541 61,262.1541 65,258.1541 C73,258.1541 81,266.1541 81,274.1541 L81,278.1541 C81,282.1541 77,286.1541 73,286.1541 L35,286.1541 C31,286.1541 27,282.1541 27,278.1541 L27,274.1541 C27,266.1541 35,258.1541 43,258.1541 C47,262.1541 50,262.1541 54,262.1541 " fill="#FFFFFF" style="stroke: #1B2438; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="96" x="6" y="300.4822">Utente registrato</text><!--MD5=[644e642b28121d0fddd5a7891d0722c0]
+entity Geo--><ellipse cx="563.99" cy="795.1582" fill="#FFFFFF" rx="16" ry="16" style="stroke: #1B2438; stroke-width: 1.5;"/><path d="M563.99,815.1582 C567.99,815.1582 570.99,815.1582 574.99,811.1582 C582.99,811.1582 590.99,819.1582 590.99,827.1582 L590.99,831.1582 C590.99,835.1582 586.99,839.1582 582.99,839.1582 L544.99,839.1582 C540.99,839.1582 536.99,835.1582 536.99,831.1582 L536.99,827.1582 C536.99,819.1582 544.99,811.1582 552.99,811.1582 C556.99,815.1582 559.99,815.1582 563.99,815.1582 " fill="#FFFFFF" style="stroke: #1B2438; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="101" x="513.49" y="853.4863">Geolocalizzazione</text><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="66" x="513.49" y="869.8304">del browser</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="515.99" y="774.1422">«sistema esterno»</text><!--MD5=[61652ced3fb34cea9764cfb4d1763475]
+entity Wiki--><ellipse cx="563.99" cy="546.1582" fill="#FFFFFF" rx="16" ry="16" style="stroke: #1B2438; stroke-width: 1.5;"/><path d="M563.99,566.1582 C567.99,566.1582 570.99,566.1582 574.99,562.1582 C582.99,562.1582 590.99,570.1582 590.99,578.1582 L590.99,582.1582 C590.99,586.1582 586.99,590.1582 582.99,590.1582 L544.99,590.1582 C540.99,590.1582 536.99,586.1582 536.99,582.1582 L536.99,578.1582 C536.99,570.1582 544.99,562.1582 552.99,562.1582 C556.99,566.1582 559.99,566.1582 563.99,566.1582 " fill="#FFFFFF" style="stroke: #1B2438; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="138" x="494.99" y="604.4863">Servizio di arricchimento</text><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="62" x="494.99" y="620.8304">(Wikipedia)</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="515.99" y="525.1422">«sistema esterno»</text><path d="M472.49,338.7041 L472.49,353.3241 L400.42,357.3241 L472.49,361.3241 L472.49,375.9441 L655.49,375.9441 L655.49,348.7041 L645.49,338.7041 L472.49,338.7041 " fill="#FEF3C7" style="stroke: #B45309; stroke-width: 1.0;"/><path d="M645.49,338.7041 L645.49,348.7041 L655.49,348.7041 L645.49,338.7041 " fill="#FEF3C7" style="stroke: #B45309; stroke-width: 1.0;"/><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="162" x="478.49" y="354.3941">Lo esegue l'Autore della missione</text><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="107" x="478.49" y="368.0141">(un utente registrato).</text><!--MD5=[0638ebedc939005bd31597834a956e5d]
+link Reg to Vis--><path d="M54,304.3941 C54,376.9241 54,449.4541 54,521.9741 " fill="none" id="Reg-&gt;Vis" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="61,521.9441,54,541.9441,47,521.9441,61,521.9441" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[9742aca6a17860869cf49c6453020f75]
+link Reg to UC191--><path d="M88.36,224.3041 C112.71,197.3141 147.85,162.6741 185,140.3241 C201.32,130.5141 220.28,122.7141 238.37,116.6641 " fill="none" id="Reg-&gt;UC191" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="243.03,115.1441,233.2322,114.1424,238.2781,116.6995,235.7209,121.7454,243.03,115.1441" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[90bbefe08bd89e51dc5991a9a942721a]
+link Reg to UC192--><path d="M102.2,248.2841 C112.04,244.9641 122.35,241.5141 132,238.3241 C169.96,225.7841 212.61,211.9841 246.44,201.1041 " fill="none" id="Reg-&gt;UC192" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="250.78,199.7041,240.9878,198.6491,246.0197,201.2337,243.4351,206.2656,250.78,199.7041" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[864fbd7b570817d4d5ce90044723df9f]
+link Vis to UC193--><path d="M82.58,589.6441 C119.05,597.9941 184.64,613.0241 235.75,624.7241 " fill="none" id="Vis-&gt;UC193" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="240.43,625.7941,232.565,619.8661,235.559,624.6656,230.7594,627.6597,240.43,625.7941" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[c23d3bf63cead187f5668d67311cb702]
+link Reg to UC194--><path d="M102.34,264.3241 C137.47,264.3241 186.23,264.3241 227.48,264.3241 " fill="none" id="Reg-&gt;UC194" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="232.25,264.3241,223.25,260.3241,227.25,264.3241,223.25,268.3241,232.25,264.3241" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[5328e9475eab217f7498626ba697f1ff]
+link Vis to UC201--><path d="M82.9,565.6041 C108.9,549.3841 148.95,525.1241 185,506.3241 C207.67,494.5041 233.33,482.6241 255.34,472.8641 " fill="none" id="Vis-&gt;UC201" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="259.76,470.9041,249.9111,470.8984,255.1898,472.9322,253.156,478.2108,259.76,470.9041" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[78b5dbc5d8dce6db92b52ee2c758cfc9]
+link UC202 to UC201--><path d="M227.42,803.3641 C211.58,797.3241 196.39,788.6841 185,776.3241 C145.73,733.7241 152.33,706.5141 157.79,648.8241 C163.86,584.6341 145.06,556.9441 185,506.3241 C198.67,489.0041 218.88,476.8641 239.04,468.4341 " fill="none" id="UC202-&gt;UC201" style="stroke: #475569; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#475569" points="243.6,466.6141,233.7581,466.2427,238.9576,468.4711,236.7293,473.6705,243.6,466.6141" style="stroke: #475569; stroke-width: 1.0;"/><text fill="#475569" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="43" x="133" y="660.5141">«extend»</text><!--MD5=[bca46268d4bfd3e5277e824fbc0bc97f]
+link UC203 to UC201--><path d="M309.25,523.2641 C309.25,509.8941 309.25,494.1741 309.25,480.7641 " fill="none" id="UC203-&gt;UC201" style="stroke: #475569; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#475569" points="309.25,475.8941,305.25,484.8941,309.25,480.8941,313.25,484.8941,309.25,475.8941" style="stroke: #475569; stroke-width: 1.0;"/><text fill="#475569" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="43" x="277.25" y="503.0041">«extend»</text><!--MD5=[0eb6b7ee1908a6c4382409da1aabd054]
+link UC202 to Geo--><path d="M409.77,817.3241 C442.78,817.3241 478.35,817.3241 506.9,817.3241 " fill="none" id="UC202-&gt;Geo" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="511.74,817.3241,502.74,813.3241,506.74,817.3241,502.74,821.3241,511.74,817.3241" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[fb39063de7c0006c63c2431726ce9cf7]
+link Reg to UC211--><path d="M102.34,281.7141 C140.35,295.6741 194.31,315.4841 237.46,331.3341 " fill="none" id="Reg-&gt;UC211" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="242.05,333.0141,234.9906,326.1464,237.359,331.2836,232.2218,333.652,242.05,333.0141" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[6c5dec07d6f6877911f1a428e644a197]
+link Vis to UC212--><path d="M82.33,623.1741 C95.63,640.0341 112.87,658.6641 132,671.3241 C159.57,689.5841 193.37,702.5241 223.97,711.4841 " fill="none" id="Vis-&gt;UC212" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="228.59,712.8041,221.0302,706.4915,223.7813,711.4343,218.8385,714.1854,228.59,712.8041" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[c4e89adc8e7b9b6efcc89277a53bf82f]
+link UC211 to Wiki--><path d="M379.01,379.4141 C397.69,387.2041 417.23,397.1441 433.49,409.3241 C469.05,435.9841 500.72,474.4441 523.84,506.8641 " fill="none" id="UC211-&gt;Wiki" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="526.6,510.7741,524.6751,501.1152,523.7155,506.6901,518.1406,505.7305,526.6,510.7741" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[d2d46105627bc78d0e257c36c27a0d5c]
+link UC212 to Wiki--><path d="M377.2,708.7441 C396.06,701.6541 416.14,692.8041 433.49,682.3241 C458.05,667.5041 482.35,647.8241 503.16,628.9841 " fill="none" id="UC212-&gt;Wiki" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="506.7,625.7541,497.3594,628.8772,503.0107,629.1289,502.759,634.7801,506.7,625.7541" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[c994c083a836ac1b3bd53a4223fc1f79]
+@startuml uc-05-esplorazione
+skinparam defaultFontName "Noto Sans"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam ArrowColor #475569
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #475569
+skinparam usecase {
+  BackgroundColor #F8EEDC
+  BorderColor #8A5A12
+  FontColor #1B2438
+}
+skinparam actor {
+  BorderColor #1B2438
+  BackgroundColor #FFFFFF
+}
+skinparam rectangle {
+  BorderColor #94A3B8
+  FontColor #334155
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FEF3C7
+  BorderColor #B45309
+  FontSize 10
+}
+left to right direction
+title Pacchetto E (R19-R21) · Percorsi, missioni vicine e arricchimento esterno
+
+actor "Visitatore" as Vis
+actor "Utente registrato" as Reg
+actor "Geolocalizzazione\ndel browser" as Geo <<sistema esterno>>
+actor "Servizio di arricchimento\n(Wikipedia)" as Wiki <<sistema esterno>>
+Reg -|> Vis
+
+rectangle "SideQuest" {
+  usecase "UC-19.1\nComporre un percorso" as UC191
+  usecase "UC-19.2\nPubblicare un percorso" as UC192
+  usecase "UC-19.3\nConsultare un percorso" as UC193
+  usecase "UC-19.4\nSeguire un percorso" as UC194
+
+  usecase "UC-20.1\nCercare missioni vicine" as UC201
+  usecase "UC-20.2\nUsare la posizione corrente" as UC202
+  usecase "UC-20.3\nScegliere una posizione\nsulla mappa" as UC203
+
+  usecase "UC-21.1\nCollegare una missione\na una voce enciclopedica" as UC211
+  usecase "UC-21.2\nConsultare l'approfondimento\ndi una missione" as UC212
+}
+
+Reg - -> UC191
+Reg - -> UC192
+Vis - -> UC193
+Reg - -> UC194
+
+Vis - -> UC201
+UC202 .> UC201 : <<extend>>
+UC203 .> UC201 : <<extend>>
+UC202 - -> Geo
+
+Reg - -> UC211
+Vis - -> UC212
+UC211 - -> Wiki
+UC212 - -> Wiki
+
+note right of UC211
+  Lo esegue l'Autore della missione
+  (un utente registrato).
+end note
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 24+36-3646
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

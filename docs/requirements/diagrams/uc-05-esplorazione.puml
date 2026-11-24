@@ -1,0 +1,45 @@
+@startuml uc-05-esplorazione
+!include _style.iuml
+left to right direction
+title Pacchetto E (R19–R21) · Percorsi, missioni vicine e arricchimento esterno
+
+actor "Visitatore" as Vis
+actor "Utente registrato" as Reg
+actor "Geolocalizzazione\ndel browser" as Geo <<sistema esterno>>
+actor "Servizio di arricchimento\n(Wikipedia)" as Wiki <<sistema esterno>>
+Reg -|> Vis
+
+rectangle "SideQuest" {
+  usecase "UC-19.1\nComporre un percorso" as UC191
+  usecase "UC-19.2\nPubblicare un percorso" as UC192
+  usecase "UC-19.3\nConsultare un percorso" as UC193
+  usecase "UC-19.4\nSeguire un percorso" as UC194
+
+  usecase "UC-20.1\nCercare missioni vicine" as UC201
+  usecase "UC-20.2\nUsare la posizione corrente" as UC202
+  usecase "UC-20.3\nScegliere una posizione\nsulla mappa" as UC203
+
+  usecase "UC-21.1\nCollegare una missione\na una voce enciclopedica" as UC211
+  usecase "UC-21.2\nConsultare l'approfondimento\ndi una missione" as UC212
+}
+
+Reg --> UC191
+Reg --> UC192
+Vis --> UC193
+Reg --> UC194
+
+Vis --> UC201
+UC202 .> UC201 : <<extend>>
+UC203 .> UC201 : <<extend>>
+UC202 --> Geo
+
+Reg --> UC211
+Vis --> UC212
+UC211 --> Wiki
+UC212 --> Wiki
+
+note right of UC211
+  Lo esegue l'Autore della missione
+  (un utente registrato).
+end note
+@enduml

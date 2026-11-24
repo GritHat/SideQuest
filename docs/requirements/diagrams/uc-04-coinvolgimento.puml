@@ -1,0 +1,35 @@
+@startuml uc-04-coinvolgimento
+!include _style.iuml
+left to right direction
+title R06 e pacchetto D (R16–R18) · Area personale, notifiche, classifiche, badge e statistiche
+
+actor "Visitatore" as Vis
+actor "Utente registrato" as Reg
+Reg -|> Vis
+
+rectangle "SideQuest" {
+  usecase "UC-06.1\nConsultare l'area personale" as UC061
+  usecase "UC-06.2\nRicevere notifiche\nin tempo reale" as UC062
+  usecase "UC-06.3\nConsultare lo storico\ndelle notifiche" as UC063
+
+  usecase "UC-16.1\nConsultare la classifica" as UC161
+  usecase "UC-16.2\nIndividuare la propria\nposizione" as UC162
+
+  usecase "UC-17.1\nConsultare badge\ne traguardi" as UC171
+  usecase "UC-17.2\nOttenere un badge" as UC172
+
+  usecase "UC-18.1\nConsultare le statistiche\npersonali" as UC181
+
+  usecase "UC-05.5\nDeterminare l'esito\ne assegnare i punti" as UC055
+}
+
+Reg --> UC061
+Reg --> UC062
+Reg --> UC063
+Vis --> UC161
+UC162 .> UC161 : <<extend>>
+Reg --> UC162
+Reg --> UC171
+UC172 .> UC055 : <<extend>>\n(missione completata)
+Reg --> UC181
+@enduml

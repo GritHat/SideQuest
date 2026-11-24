@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="$lang$">
+<head>
+<meta charset="utf-8">
+<title>$title$ · $subtitle$</title>
+<style>
+$styles.html()$
+</style>
+$for(css)$
+<link rel="stylesheet" href="$css$">
+$endfor$
+</head>
+<body>
+<section class="cover">
+  <img class="cover-logo" src="assets/logo-sidequest.png" alt="Logo di SideQuest">
+  <p class="cover-kicker">Ingegneria del Software · A.A. 2026/2027 · Consegna anticipata</p>
+  <h1 class="cover-title">$title$</h1>
+  <p class="cover-subtitle">$subtitle$</p>
+  <table class="cover-meta">
+    <tr><th>Gruppo</th><td>$group$ · $kind$</td></tr>
+    <tr><th>Requisiti assegnati</th><td>$scope$</td></tr>
+    <tr><th>Componenti</th><td>$for(members)$$members.name$ · $members.id$$sep$<br>$endfor$</td></tr>
+    <tr><th>Versione</th><td>$version$ · $date$</td></tr>
+  </table>
+</section>
+<nav class="toc">
+<h2 class="toc-title">Indice</h2>
+$table-of-contents$
+</nav>
+<main>
+$body$
+</main>
+</body>
+</html>

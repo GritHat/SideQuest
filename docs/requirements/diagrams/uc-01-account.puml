@@ -1,0 +1,34 @@
+@startuml uc-01-account
+!include _style.iuml
+left to right direction
+title R01 · Account, accesso, profilo e amministrazione
+
+actor "Visitatore" as Vis
+actor "Utente registrato" as Reg
+actor "Amministratore" as Adm
+actor "Servizio email" as Mail <<sistema esterno>>
+Reg -|> Vis
+Adm -|> Reg
+
+rectangle "SideQuest" {
+  usecase "UC-01.1\nRegistrarsi" as UC011
+  usecase "UC-01.2\nVerificare l'indirizzo email" as UC012
+  usecase "UC-01.3\nAccedere" as UC013
+  usecase "UC-01.4\nUscire" as UC014
+  usecase "UC-01.5\nGestire il proprio profilo" as UC015
+  usecase "UC-01.6\nEliminare il proprio account" as UC016
+  usecase "UC-01.7\nGestire gli utenti" as UC017
+  usecase "UC-01.8\nInvalidare una missione" as UC018
+}
+
+Vis --> UC011
+Vis --> UC013
+Vis --> UC012
+Reg --> UC014
+Reg --> UC015
+Reg --> UC016
+Adm --> UC017
+Adm --> UC018
+UC011 ..> UC012 : <<include>>
+UC012 --> Mail
+@enduml

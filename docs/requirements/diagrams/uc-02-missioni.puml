@@ -1,0 +1,37 @@
+@startuml uc-02-missioni
+!include _style.iuml
+left to right direction
+title R02–R03 · Creazione, pubblicazione ed esplorazione delle missioni
+
+actor "Visitatore" as Vis
+actor "Autore" as Aut
+actor "Servizio di mappe\n(OpenStreetMap)" as Osm <<sistema esterno>>
+
+rectangle "SideQuest" {
+  usecase "UC-02.1\nCreare una missione" as UC021
+  usecase "UC-02.2\nModificare una missione\nnon ancora iniziata" as UC022
+  usecase "UC-02.3\nPubblicare una missione" as UC023
+  usecase "UC-02.4\nRitirare una missione" as UC024
+  usecase "UC-02.5\nIndicare il luogo sulla mappa" as UC025
+
+  usecase "UC-03.1\nEsplorare l'elenco\ndelle missioni" as UC031
+  usecase "UC-03.2\nEsplorare la mappa\ndelle missioni" as UC032
+  usecase "UC-03.3\nCercare e filtrare\nle missioni" as UC033
+  usecase "UC-03.4\nConsultare l'anteprima\ndi una missione" as UC034
+}
+
+Aut --> UC021
+Aut --> UC022
+Aut --> UC023
+Aut --> UC024
+UC025 .> UC021 : <<extend>>
+UC025 .> UC022 : <<extend>>
+
+Vis --> UC031
+Vis --> UC032
+Vis --> UC034
+UC033 .> UC031 : <<extend>>
+UC033 .> UC032 : <<extend>>
+UC032 --> Osm
+UC025 --> Osm
+@enduml

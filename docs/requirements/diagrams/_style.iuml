@@ -1,0 +1,28 @@
+' Stile comune dei diagrammi dei casi d'uso SideQuest
+skinparam defaultFontName "Noto Sans"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam ArrowColor #475569
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #475569
+skinparam usecase {
+  BackgroundColor #F8EEDC
+  BorderColor #8A5A12
+  FontColor #1B2438
+}
+skinparam actor {
+  BorderColor #1B2438
+  BackgroundColor #FFFFFF
+}
+skinparam rectangle {
+  BorderColor #94A3B8
+  FontColor #334155
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FEF3C7
+  BorderColor #B45309
+  FontSize 10
+}
