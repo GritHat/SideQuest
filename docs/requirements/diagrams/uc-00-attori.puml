@@ -15,7 +15,7 @@ Aut -up-|> Reg
 Adm -up-|> Reg
 Reg -up-|> Vis
 
-note right of Adm
+note right of Reg
   Esploratore e Autore sono ruoli che lo stesso
   utente registrato assume rispetto a una missione:
   chi vi partecipa e chi l'ha creata.
