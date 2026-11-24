@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { passwordSchema } from '../auth/auth.schemas.js';
 
 export const forgotPasswordSchema = z
   .object({
@@ -10,14 +11,7 @@ export type ForgotPasswordDto = z.infer<typeof forgotPasswordSchema>;
 export const resetPasswordSchema = z
   .object({
     token: z.string().min(1).max(512),
-    password: z
-      .string()
-      .min(12)
-      .max(128)
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).+$/, {
-        message:
-          'Password must contain at least one lowercase letter, one uppercase letter, one number and one special character',
-      }),
+    password: passwordSchema,
   })
   .strict();
 export type ResetPasswordDto = z.infer<typeof resetPasswordSchema>;
