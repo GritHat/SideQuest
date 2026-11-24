@@ -2,6 +2,7 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from '../users/users.module.js';
 import { AuthController } from './auth.controller.js';
+import { Argon2PasswordHasherProvider } from './argon2-password-hasher.provider.js';
 import { CredentialsService } from './credentials.service.js';
 import { JwtAuth } from './jwt-auth.provider.js';
 import { AuthService } from './auth.service.js';
@@ -12,7 +13,20 @@ import { PasswordResetMail, PasswordResetMailer } from '../mail/email-password-r
 
 @Module({
   imports: [UsersModule],
-  controllers: [AuthController, EmailVerificationController, PasswordResetController],
-  providers: [CredentialsService, JwtAuth, AuthService, EmailVerificationMailer, VerifyEmailMail, PasswordResetMailer, PasswordResetMail],
+  controllers: [
+    AuthController, 
+    EmailVerificationController, 
+    PasswordResetController
+  ],
+  providers: [
+    Argon2PasswordHasherProvider,
+    CredentialsService,
+    JwtAuth,
+    AuthService,
+    EmailVerificationMailer,
+    VerifyEmailMail,
+    PasswordResetMailer,
+    PasswordResetMail,
+  ],
 })
 export class AuthModule {}

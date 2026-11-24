@@ -1,29 +1,18 @@
 
 import { ConflictException, Injectable } from '@nestjs/common';
-import argon2 from 'argon2';
+import { PasswordHasher } from '@nestjs/authentication';
 import type { User } from '../users/user.js';
 import { UsersRepository } from '../users/users.repository.js';
 
-const ARGON2_OPTIONS = {
-  type: argon2.argon2id as 2,
-  raw: false as const,
-};
-
 @Injectable()
 export class CredentialsService {
-  private dummyHashPromise?: Promise<string>;
-
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly passwordHasher: PasswordHasher,
+  ) {}
 
   hashPassword(password: string): Promise<string> {
-    return argon2.hash(password, ARGON2_OPTIONS);
-  }
-
-  private getDummyHash(): Promise<string> {
-    if (!this.dummyHashPromise) {
-      this.dummyHashPromise = this.hashPassword('dummy-password-for-timing');
-    }
-    return this.dummyHashPromise;
+    return this.passwordHasher.hash(password);
   }
 
   async register(username: string, email: string, password: string): Promise<User> {
@@ -48,14 +37,13 @@ export class CredentialsService {
 
   async verify(email: string, password: string): Promise<User | null> {
     const found = await this.usersRepository.findCredentialsByEmail(email);
-    const hash = found?.passwordHash ?? (await this.getDummyHash());
-    const valid = await argon2.verify(hash, password);
+    const valid = await this.passwordHasher.verify(password, found?.passwordHash);
 
     if (!valid || !found?.passwordHash || found.user.status !== 'ACTIVE') {
       return null;
     }
 
-    if (argon2.needsRehash(found.passwordHash)) {
+    if (this.passwordHasher.needsRehash(found.passwordHash)) {
       await this.usersRepository.updatePasswordHash(
         found.user.id,
         await this.hashPassword(password),

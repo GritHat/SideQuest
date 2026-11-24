@@ -1,11 +1,19 @@
 import { ConflictException } from '@nestjs/common';
+import { PasswordHasher } from '@nestjs/authentication';
 import argon2 from 'argon2';
 
 import type { User } from '../users/user.js';
 import type { UsersRepository } from '../users/users.repository.js';
+import { Argon2PasswordHasherProvider } from './argon2-password-hasher.provider.js';
 import { CredentialsService } from './credentials.service.js';
 
 const PASSWORD = 'Abcdefgh12!x';
+
+function makeService(repo: ReturnType<typeof fakeRepository>) {
+  const passwordHasher = new PasswordHasher({ logN: 10 });
+  new Argon2PasswordHasherProvider(passwordHasher);
+  return new CredentialsService(repo as unknown as UsersRepository, passwordHasher);
+}
 
 function makeUser(overrides: Partial<User> = {}): User {
   return { id: 'u1', username: 'explorer', email: 'explorer@x.it', emailVerified: false, status: 'ACTIVE', roles: ['user'], ...overrides };
@@ -26,7 +34,7 @@ describe('CredentialsService.register(username, email, password)', () => {
   it('creates the user with an Argon2id hash, never the plain password', async () => {
     const create = vi.fn(async (email: string, { username }: { username: string }) => makeUser({ email, username }));
     const repo = fakeRepository({ create });
-    const user = await new CredentialsService(repo as unknown as UsersRepository).register('explorer', 'explorer@x.it', PASSWORD);
+    const user = await makeService(repo).register('explorer', 'explorer@x.it', PASSWORD);
 
     expect(user.username).toBe('explorer');
     const { passwordHash } = create.mock.calls[0][1] as unknown as { passwordHash: string };
@@ -42,14 +50,14 @@ describe('CredentialsService.register(username, email, password)', () => {
   ])('rejects with 409 when the %s', async (_, overrides) => {
     const repo = fakeRepository(overrides);
     await expect(
-      new CredentialsService(repo as unknown as UsersRepository).register('explorer', 'explorer@x.it', PASSWORD),
+      makeService(repo).register('explorer', 'explorer@x.it', PASSWORD),
     ).rejects.toBeInstanceOf(ConflictException);
   });
 
   it('does not hide unexpected repository errors', async () => {
     const repo = fakeRepository({ create: vi.fn().mockRejectedValue(new Error('db down')) });
     await expect(
-      new CredentialsService(repo as unknown as UsersRepository).register('explorer', 'explorer@x.it', PASSWORD),
+      makeService(repo).register('explorer', 'explorer@x.it', PASSWORD),
     ).rejects.toThrow('db down');
   });
 });
@@ -61,10 +69,10 @@ describe('CredentialsService.verify(email, password)', () => {
   });
 
   const withAccount = (user: User | null, passwordHash: string | null = hash) =>
-    new CredentialsService(
+    makeService(
       fakeRepository({
         findCredentialsByEmail: vi.fn().mockResolvedValue(user ? { user, passwordHash } : null),
-      }) as unknown as UsersRepository,
+      }),
     );
 
   it('returns the user for the right password of an active account', async () => {

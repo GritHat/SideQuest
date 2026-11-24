@@ -1,8 +1,5 @@
-import argon2 from 'argon2';
-import { PasswordHasher } from '@nestjs/authentication';
 import { vi } from 'vitest';
 
-import { CredentialsService } from '../auth/credentials.service.js';
 import type { User } from '../users/user.js';
 import {
   PasswordResetMail,
@@ -73,16 +70,12 @@ describe('PasswordResetMailer', () => {
       updatePasswordHash: vi.fn().mockResolvedValue(undefined),
     };
     const mailer = { send: vi.fn().mockResolvedValue(undefined) };
-    const credentialsService = new CredentialsService(usersRepository as never);
-    const passwordHasher = new PasswordHasher({ logN: 10 });
     const registry = { registerHandler: vi.fn() };
     const storage = { registerSource: vi.fn() };
 
     const handler = new PasswordResetMailer(
       usersRepository as never,
       mailer as never,
-      credentialsService,
-      passwordHasher,
       registry as never,
       storage as never,
     );
@@ -91,14 +84,13 @@ describe('PasswordResetMailer', () => {
       handler,
       usersRepository,
       mailer,
-      passwordHasher,
       registry,
       storage,
     };
   }
 
-  it('registers itself as the passwordReset handler and delegates PasswordHasher.hash to Argon2id', async () => {
-    const { handler, passwordHasher, registry, storage } = setup();
+  it('registers itself as the passwordReset handler', () => {
+    const { handler, registry, storage } = setup();
     expect(registry.registerHandler).toHaveBeenCalledWith(
       'passwordReset',
       handler,
@@ -106,10 +98,6 @@ describe('PasswordResetMailer', () => {
     expect(storage.registerSource).toHaveBeenCalledWith({
       sessions: expect.any(Object),
     });
-
-    const hash = await passwordHasher.hash(NEW_PASSWORD);
-    expect(hash).toMatch(/^\$argon2id\$/);
-    expect(await argon2.verify(hash, NEW_PASSWORD)).toBe(true);
   });
 
   it('returns the account only for ACTIVE users', async () => {

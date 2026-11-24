@@ -3,13 +3,11 @@ import { Injectable } from '@nestjs/common';
 import {
   AuthenticationRegistry,
   AuthenticationStorage,
-  PasswordHasher,
   PasswordResetHandler,
   type PasswordResetLink,
   type SessionStore,
 } from '@nestjs/authentication';
 import { Mailer, type Mailable } from '@nestjs/mail';
-import { CredentialsService } from '../auth/credentials.service.js';
 import { UsersRepository } from '../users/users.repository.js';
 
 // Identity uses stateless JWT access tokens + refresh tokens, never server-side session cookies.
@@ -47,14 +45,10 @@ export class PasswordResetMailer extends PasswordResetHandler {
   constructor(
     private readonly usersRepository: UsersRepository,
     private readonly mailer: Mailer,
-    credentialsService: CredentialsService,
-    passwordHasher: PasswordHasher,
     registry: AuthenticationRegistry,
     storage: AuthenticationStorage,
   ) {
     super();
-    passwordHasher.hash = (password) =>
-      credentialsService.hashPassword(password);
     registry.registerHandler('passwordReset', this);
     storage.registerSource({ sessions: NOOP_SESSION_STORE });
   }
