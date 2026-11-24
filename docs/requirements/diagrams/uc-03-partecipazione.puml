@@ -31,8 +31,4 @@ UC053 ..> UC055 : <<include>>
 Tempo --> UC043
 UC043 ..> UC055 : <<include>>
 
-note right of UC041
-  Formalizzato con il template
-  di Cockburn al §8 (mockup M1–M8).
-end note
 @enduml

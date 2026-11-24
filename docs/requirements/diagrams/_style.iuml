@@ -8,12 +8,12 @@ skinparam ArrowColor #475569
 skinparam ArrowFontSize 10
 skinparam ArrowFontColor #475569
 skinparam usecase {
-  BackgroundColor #EEF2FF
-  BorderColor #4F46E5
-  FontColor #0F172A
+  BackgroundColor #F8EEDC
+  BorderColor #8A5A12
+  FontColor #1B2438
 }
 skinparam actor {
-  BorderColor #0F172A
+  BorderColor #1B2438
   BackgroundColor #FFFFFF
 }
 skinparam rectangle {
