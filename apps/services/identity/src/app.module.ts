@@ -18,7 +18,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envSchema } from './config/env.schema.js';
 import { HealthController } from './health/health.controller.js';
 import { ProblemDetailsFilter } from './common/problem-details.filter.js';
-import { RolesGuard } from './common/guards/roles.guard.js';
 
 @Module({
   imports: [
@@ -75,7 +74,6 @@ import { RolesGuard } from './common/guards/roles.guard.js';
     PrismaEmailTokenStore,
     NoSessionStore,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    { provide: APP_GUARD, useClass: RolesGuard },
     { provide: APP_FILTER, useClass: ProblemDetailsFilter },
   ],
   controllers: [
