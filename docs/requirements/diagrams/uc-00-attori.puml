@@ -1,0 +1,37 @@
+@startuml uc-00-attori
+!include _style.iuml
+title Attori di SideQuest e loro generalizzazioni
+
+together {
+  actor "Esploratore" as Esp
+  actor "Autore" as Aut
+  actor "Amministratore" as Adm
+}
+actor "Utente registrato" as Reg
+actor "Visitatore" as Vis
+
+Esp -up-|> Reg
+Aut -up-|> Reg
+Adm -up-|> Reg
+Reg -up-|> Vis
+
+note right of Adm
+  Esploratore e Autore sono ruoli che lo stesso
+  utente registrato assume rispetto a una missione:
+  chi vi partecipa e chi l'ha creata.
+  L'Amministratore ha privilegi di gestione.
+end note
+
+together {
+  actor "Tempo" as Tempo <<sistema>>
+  actor "Servizio email" as Mail <<sistema esterno>>
+  actor "Servizio di mappe\n(OpenStreetMap)" as Osm <<sistema esterno>>
+  actor "Geolocalizzazione\ndel browser" as Geo <<sistema esterno>>
+  actor "Servizio di arricchimento\n(Wikipedia)" as Wiki <<sistema esterno>>
+}
+Esp -[hidden]down- Tempo
+Tempo -[hidden]right- Mail
+Mail -[hidden]right- Osm
+Osm -[hidden]right- Geo
+Geo -[hidden]right- Wiki
+@enduml

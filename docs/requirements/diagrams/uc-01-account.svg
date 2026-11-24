@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="704px" preserveAspectRatio="none" style="width:830px;height:704px;" version="1.1" viewBox="0 0 830 704" width="830px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="275" x="280.5" y="12.8281">R01 · Account, accesso, profilo e amministrazione</text><!--MD5=[0fafa650b98e60262180ad0a251201fb]
+cluster SideQuest--><rect fill="#FFFFFF" height="602" style="stroke: #94A3B8; stroke-width: 1.5;" width="526.38" x="149" y="40.2141"/><text fill="#334155" font-family="Noto Sans" font-size="12" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="62" x="381.19" y="55.0422">SideQuest</text><ellipse cx="264.6333" cy="516.2107" fill="#EEF2FF" rx="43.1733" ry="24.8866" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1333" y="510.923">UC-01.1</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="60" x="234.6333" y="527.2671">Registrarsi</text><ellipse cx="565.3155" cy="578.2161" fill="#EEF2FF" rx="94.0655" ry="23.672" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="542.8155" y="571.0291">UC-01.2</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="144" x="493.3155" y="587.3732">Verificare l'indirizzo email</text><ellipse cx="264.6328" cy="601.2164" fill="#EEF2FF" rx="39.1928" ry="25.3222" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1328" y="596.5759">UC-01.3</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="238.1328" y="612.92">Accedere</text><ellipse cx="264.6316" cy="266.2125" fill="#EEF2FF" rx="33.4216" ry="25.0984" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1316" y="264.1835">UC-01.4</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="36" x="246.6316" y="280.5276">Uscire</text><ellipse cx="264.6307" cy="350.2183" fill="#EEF2FF" rx="87.2807" ry="23.7142" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1307" y="343.1">UC-01.5</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="133" x="198.1307" y="359.4441">Gestire il proprio profilo</text><ellipse cx="264.6267" cy="432.2183" fill="#EEF2FF" rx="99.6267" ry="23.6442" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1267" y="424.9857">UC-01.6</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="153" x="188.1267" y="441.3298">Eliminare il proprio account</text><ellipse cx="264.6318" cy="99.2153" fill="#EEF2FF" rx="62.1918" ry="24.0312" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1318" y="92.6069">UC-01.7</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="92" x="218.6318" y="108.951">Gestire gli utenti</text><ellipse cx="264.6307" cy="182.2183" fill="#EEF2FF" rx="87.2807" ry="23.7142" style="stroke: #4F46E5; stroke-width: 1.5;"/><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="45" x="242.1307" y="175.1">UC-01.8</text><text fill="#0F172A" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="133" x="198.1307" y="191.4441">Invalidare una missione</text><!--MD5=[b3bfaad5e18c67c27dc5f4ed0e01fdc9]
+entity Vis--><ellipse cx="54" cy="547.0441" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M54,567.0441 C58,567.0441 61,567.0441 65,563.0441 C73,563.0441 81,571.0441 81,579.0441 L81,583.0441 C81,587.0441 77,591.0441 73,591.0441 L35,591.0441 C31,591.0441 27,587.0441 27,583.0441 L27,579.0441 C27,571.0441 35,563.0441 43,563.0441 C47,567.0441 50,567.0441 54,567.0441 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="27.5" y="605.3722">Visitatore</text><!--MD5=[e9740f7dbebaa8b533ee6b2a601c379d]
+entity Reg--><ellipse cx="54" cy="328.0441" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M54,348.0441 C58,348.0441 61,348.0441 65,344.0441 C73,344.0441 81,352.0441 81,360.0441 L81,364.0441 C81,368.0441 77,372.0441 73,372.0441 L35,372.0441 C31,372.0441 27,368.0441 27,364.0441 L27,360.0441 C27,352.0441 35,344.0441 43,344.0441 C47,348.0441 50,348.0441 54,348.0441 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="96" x="6" y="386.3722">Utente registrato</text><!--MD5=[dadd680571e2ee7a6b53223d26ce7e08]
+entity Adm--><ellipse cx="54" cy="160.0441" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M54,180.0441 C58,180.0441 61,180.0441 65,176.0441 C73,176.0441 81,184.0441 81,192.0441 L81,196.0441 C81,200.0441 77,204.0441 73,204.0441 L35,204.0441 C31,204.0441 27,200.0441 27,196.0441 L27,192.0441 C27,184.0441 35,176.0441 43,176.0441 C47,180.0441 50,180.0441 54,180.0441 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="88" x="10" y="218.3722">Amministratore</text><!--MD5=[d6e75f2a2d9b7b2a48fe909117c6250f]
+entity Mail--><ellipse cx="770.38" cy="564.2082" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M770.38,584.2082 C774.38,584.2082 777.38,584.2082 781.38,580.2082 C789.38,580.2082 797.38,588.2082 797.38,596.2082 L797.38,600.2082 C797.38,604.2082 793.38,608.2082 789.38,608.2082 L751.38,608.2082 C747.38,608.2082 743.38,604.2082 743.38,600.2082 L743.38,596.2082 C743.38,588.2082 751.38,580.2082 759.38,580.2082 C763.38,584.2082 766.38,584.2082 770.38,584.2082 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="78" x="731.38" y="622.5363">Servizio email</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="722.38" y="543.1922">«sistema esterno»</text><!--MD5=[0638ebedc939005bd31597834a956e5d]
+link Reg to Vis--><path d="M54,390.1141 C54,429.3941 54,468.6641 54,507.9341 " fill="none" id="Reg-&gt;Vis" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="61,507.9241,54,527.9241,47,507.9241,61,507.9241" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[856c4d5bf2e3ca8b75bdd013e363003d]
+link Adm to Reg--><path d="M54,222.2041 C54,244.4241 54,266.6541 54,288.8741 " fill="none" id="Adm-&gt;Reg" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="61,288.6641,54,308.6641,47,288.6641,61,288.6641" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[5ad300d4c696cbfbaf035df183c99b2b]
+link Vis to UC011--><path d="M82.7,562.1741 C117.39,553.3641 177.26,538.1541 218.58,527.6541 " fill="none" id="Vis-&gt;UC011" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="223.32,526.4541,213.6139,524.7832,218.4727,527.6802,215.5757,532.539,223.32,526.4541" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[cae32605af6766ea51a347eeff11b252]
+link Vis to UC013--><path d="M82.7,573.4641 C117.81,578.8441 178.72,588.1941 220.07,594.5341 " fill="none" id="Vis-&gt;UC013" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="224.79,595.2541,216.4994,589.9375,219.8476,594.497,215.2881,597.8453,224.79,595.2541" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[8efe463cbfc1ea47a4b51af2087ea987]
+link Vis to UC012--><path d="M82.8,602.7641 C98.11,618.5841 118.55,635.8041 141,644.2141 C269.72,692.4541 433.21,636.6441 514.19,601.8741 " fill="none" id="Vis-&gt;UC012" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="518.48,600.0141,508.6316,599.9198,513.8917,602.0009,511.8105,607.2611,518.48,600.0141" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[e0c6834a0da16b64cd17959d25d3a435]
+link Reg to UC014--><path d="M102.35,326.5141 C114.81,320.5941 128.31,314.4441 141,309.2141 C169.55,297.4441 202.64,285.9641 227.24,277.8341 " fill="none" id="Reg-&gt;UC014" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="231.86,276.3041,222.0622,275.3024,227.1081,277.8595,224.5509,282.9054,231.86,276.3041" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[d40da0f697db5af5ea06a101d3a2f9ee]
+link Reg to UC015--><path d="M102.34,350.2141 C122.65,350.2141 147.11,350.2141 170.77,350.2141 " fill="none" id="Reg-&gt;UC015" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="175.58,350.2141,166.58,346.2141,170.58,350.2141,166.58,354.2141,175.58,350.2141" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[4bc3205e4444e5ed9f48ee8a3b8a240a]
+link Reg to UC016--><path d="M102.3,374.0341 C114.75,379.9541 128.27,386.0741 141,391.2141 C158.67,398.3441 178.11,405.2641 196.2,411.3141 " fill="none" id="Reg-&gt;UC016" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="200.84,412.8541,193.5728,406.2068,196.098,411.2687,191.0361,413.7939,200.84,412.8541" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[3af571ad4a18cb629faf305533cfe4e5]
+link Adm to UC017--><path d="M98.32,160.3741 C111.84,153.8741 126.91,146.9641 141,141.2141 C163.09,132.1941 187.92,123.4441 209.43,116.2841 " fill="none" id="Adm-&gt;UC017" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="213.96,114.7841,204.1587,113.8177,209.2137,116.3567,206.6748,121.4117,213.96,114.7841" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[c6aff061f581417722aa1c099126f0c7]
+link Adm to UC018--><path d="M98.48,182.2141 C119.51,182.2141 145.6,182.2141 170.8,182.2141 " fill="none" id="Adm-&gt;UC018" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="175.66,182.2141,166.66,178.2141,170.66,182.2141,166.66,186.2141,175.66,182.2141" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[f53023da1b7cdde4c534ec17b7bf6c49]
+link UC011 to UC012--><path d="M305.6,524.5141 C351.38,534.0141 427.52,549.8141 485.38,561.8241 " fill="none" id="UC011-&gt;UC012" style="stroke: #475569; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#475569" points="490.15,562.8141,482.1476,557.0729,485.2538,561.8006,480.526,564.9068,490.15,562.8141" style="stroke: #475569; stroke-width: 1.0;"/><text fill="#475569" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="45" x="395.25" y="540.1941">«include»</text><!--MD5=[51d1fe466d1fa9f56875ce7d90b395d3]
+link UC012 to Mail--><path d="M659.83,578.2141 C679.02,578.2141 698.59,578.2141 715.79,578.2141 " fill="none" id="UC012-&gt;Mail" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="#475569" points="720.5,578.2141,711.5,574.2141,715.5,578.2141,711.5,582.2141,720.5,578.2141" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[8fab909fde60f106f2d2a411182daa9d]
+@startuml uc-01-account
+skinparam defaultFontName "Noto Sans"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam ArrowColor #475569
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #475569
+skinparam usecase {
+  BackgroundColor #EEF2FF
+  BorderColor #4F46E5
+  FontColor #0F172A
+}
+skinparam actor {
+  BorderColor #0F172A
+  BackgroundColor #FFFFFF
+}
+skinparam rectangle {
+  BorderColor #94A3B8
+  FontColor #334155
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FEF3C7
+  BorderColor #B45309
+  FontSize 10
+}
+left to right direction
+title R01 · Account, accesso, profilo e amministrazione
+
+actor "Visitatore" as Vis
+actor "Utente registrato" as Reg
+actor "Amministratore" as Adm
+actor "Servizio email" as Mail <<sistema esterno>>
+Reg -|> Vis
+Adm -|> Reg
+
+rectangle "SideQuest" {
+  usecase "UC-01.1\nRegistrarsi" as UC011
+  usecase "UC-01.2\nVerificare l'indirizzo email" as UC012
+  usecase "UC-01.3\nAccedere" as UC013
+  usecase "UC-01.4\nUscire" as UC014
+  usecase "UC-01.5\nGestire il proprio profilo" as UC015
+  usecase "UC-01.6\nEliminare il proprio account" as UC016
+  usecase "UC-01.7\nGestire gli utenti" as UC017
+  usecase "UC-01.8\nInvalidare una missione" as UC018
+}
+
+Vis - -> UC011
+Vis - -> UC013
+Vis - -> UC012
+Reg - -> UC014
+Reg - -> UC015
+Reg - -> UC016
+Adm - -> UC017
+Adm - -> UC018
+UC011 ..> UC012 : <<include>>
+UC012 - -> Mail
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 24+36-3646
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

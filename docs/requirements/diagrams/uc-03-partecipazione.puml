@@ -1,0 +1,38 @@
+@startuml uc-03-partecipazione
+!include _style.iuml
+left to right direction
+title R04–R05 · Accettazione, progressi, prove e completamento
+
+actor "Esploratore" as Esp
+actor "Autore" as Aut
+actor "Tempo" as Tempo <<sistema>>
+
+rectangle "SideQuest" {
+  usecase "UC-04\nAccettare una missione" as UC04
+  usecase "UC-04.1\nAccettare una missione\nsegreta a tempo" as UC041
+  usecase "UC-04.2\nConsultare la missione\nin corso" as UC042
+  usecase "UC-04.3\nRilevare la scadenza" as UC043
+
+  usecase "UC-05.1\nSegnare un obiettivo\ncome completato" as UC051
+  usecase "UC-05.2\nAllegare una prova" as UC052
+  usecase "UC-05.3\nVerificare le prove" as UC053
+  usecase "UC-05.4\nAbbandonare una missione" as UC054
+  usecase "UC-05.5\nDeterminare l'esito\ne assegnare i punti" as UC055
+}
+
+UC041 -|> UC04
+Esp --> UC04
+Esp --> UC042
+Esp --> UC051
+Esp --> UC054
+UC052 .> UC051 : <<extend>>
+Aut --> UC053
+UC053 ..> UC055 : <<include>>
+Tempo --> UC043
+UC043 ..> UC055 : <<include>>
+
+note right of UC041
+  Formalizzato con il template
+  di Cockburn al §8 (mockup M1–M8).
+end note
+@enduml

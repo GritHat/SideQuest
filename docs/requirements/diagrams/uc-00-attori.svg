@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="564px" preserveAspectRatio="none" style="width:809px;height:564px;" version="1.1" viewBox="0 0 809 564" width="809px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="233" x="307" y="12.8281">Attori di SideQuest e loro generalizzazioni</text><!--MD5=[e973111eecde19540daa51b9e9bb48df]
+entity Esp--><ellipse cx="194" cy="320.4641" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M194,340.4641 C198,340.4641 201,340.4641 205,336.4641 C213,336.4641 221,344.4641 221,352.4641 L221,356.4641 C221,360.4641 217,364.4641 213,364.4641 L175,364.4641 C171,364.4641 167,360.4641 167,356.4641 L167,352.4641 C167,344.4641 175,336.4641 183,336.4641 C187,340.4641 190,340.4641 194,340.4641 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="65" x="161.5" y="378.7922">Esploratore</text><!--MD5=[2d09efcd469cda50c05d630ee3ccfd79]
+entity Aut--><ellipse cx="290" cy="320.4641" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M290,340.4641 C294,340.4641 297,340.4641 301,336.4641 C309,336.4641 317,344.4641 317,352.4641 L317,356.4641 C317,360.4641 313,364.4641 309,364.4641 L271,364.4641 C267,364.4641 263,360.4641 263,356.4641 L263,352.4641 C263,344.4641 271,336.4641 279,336.4641 C283,340.4641 286,340.4641 290,340.4641 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="38" x="271" y="378.7922">Autore</text><!--MD5=[dadd680571e2ee7a6b53223d26ce7e08]
+entity Adm--><ellipse cx="82" cy="320.4641" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M82,340.4641 C86,340.4641 89,340.4641 93,336.4641 C101,336.4641 109,344.4641 109,352.4641 L109,356.4641 C109,360.4641 105,364.4641 101,364.4641 L63,364.4641 C59,364.4641 55,360.4641 55,356.4641 L55,352.4641 C55,344.4641 63,336.4641 71,336.4641 C75,340.4641 78,340.4641 82,340.4641 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="88" x="38" y="378.7922">Amministratore</text><!--MD5=[e98e32d5519b7a4ea87df1e6b173c71b]
+entity Tempo--><ellipse cx="194" cy="484.3282" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M194,504.3282 C198,504.3282 201,504.3282 205,500.3282 C213,500.3282 221,508.3282 221,516.3282 L221,520.3282 C221,524.3282 217,528.3282 213,528.3282 L175,528.3282 C171,528.3282 167,524.3282 167,520.3282 L167,516.3282 C167,508.3282 175,500.3282 183,500.3282 C187,504.3282 190,504.3282 194,504.3282 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="39" x="174.5" y="542.6563">Tempo</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="53" x="167.5" y="463.3122">«sistema»</text><!--MD5=[d6e75f2a2d9b7b2a48fe909117c6250f]
+entity Mail--><ellipse cx="306" cy="484.3282" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M306,504.3282 C310,504.3282 313,504.3282 317,500.3282 C325,500.3282 333,508.3282 333,516.3282 L333,520.3282 C333,524.3282 329,528.3282 325,528.3282 L287,528.3282 C283,528.3282 279,524.3282 279,520.3282 L279,516.3282 C279,508.3282 287,500.3282 295,500.3282 C299,504.3282 302,504.3282 306,504.3282 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="78" x="267" y="542.6563">Servizio email</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="258" y="463.3122">«sistema esterno»</text><!--MD5=[7a73d7558fb1de797c737c8492b9464d]
+entity Osm--><ellipse cx="438" cy="476.1582" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M438,496.1582 C442,496.1582 445,496.1582 449,492.1582 C457,492.1582 465,500.1582 465,508.1582 L465,512.1582 C465,516.1582 461,520.1582 457,520.1582 L419,520.1582 C415,520.1582 411,516.1582 411,512.1582 L411,508.1582 C411,500.1582 419,492.1582 427,492.1582 C431,496.1582 434,496.1582 438,496.1582 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="99" x="388.5" y="534.4863">Servizio di mappe</text><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="97" x="388.5" y="550.8304">(OpenStreetMap)</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="390" y="455.1422">«sistema esterno»</text><!--MD5=[644e642b28121d0fddd5a7891d0722c0]
+entity Geo--><ellipse cx="573" cy="476.1582" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M573,496.1582 C577,496.1582 580,496.1582 584,492.1582 C592,492.1582 600,500.1582 600,508.1582 L600,512.1582 C600,516.1582 596,520.1582 592,520.1582 L554,520.1582 C550,520.1582 546,516.1582 546,512.1582 L546,508.1582 C546,500.1582 554,492.1582 562,492.1582 C566,496.1582 569,496.1582 573,496.1582 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="101" x="522.5" y="534.4863">Geolocalizzazione</text><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="66" x="522.5" y="550.8304">del browser</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="525" y="455.1422">«sistema esterno»</text><!--MD5=[61652ced3fb34cea9764cfb4d1763475]
+entity Wiki--><ellipse cx="728" cy="476.1582" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M728,496.1582 C732,496.1582 735,496.1582 739,492.1582 C747,492.1582 755,500.1582 755,508.1582 L755,512.1582 C755,516.1582 751,520.1582 747,520.1582 L709,520.1582 C705,520.1582 701,516.1582 701,512.1582 L701,508.1582 C701,500.1582 709,492.1582 717,492.1582 C721,496.1582 724,496.1582 728,496.1582 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="138" x="659" y="534.4863">Servizio di arricchimento</text><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="62" x="659" y="550.8304">(Wikipedia)</text><text fill="#000000" font-family="Noto Sans" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="680" y="455.1422">«sistema esterno»</text><!--MD5=[e9740f7dbebaa8b533ee6b2a601c379d]
+entity Reg--><ellipse cx="194" cy="181.1241" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M194,201.1241 C198,201.1241 201,201.1241 205,197.1241 C213,197.1241 221,205.1241 221,213.1241 L221,217.1241 C221,221.1241 217,225.1241 213,225.1241 L175,225.1241 C171,225.1241 167,221.1241 167,217.1241 L167,213.1241 C167,205.1241 175,197.1241 183,197.1241 C187,201.1241 190,201.1241 194,201.1241 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="96" x="146" y="239.4522">Utente registrato</text><!--MD5=[b3bfaad5e18c67c27dc5f4ed0e01fdc9]
+entity Vis--><ellipse cx="194" cy="41.7841" fill="#FFFFFF" rx="16" ry="16" style="stroke: #0F172A; stroke-width: 1.5;"/><path d="M194,61.7841 C198,61.7841 201,61.7841 205,57.7841 C213,57.7841 221,65.7841 221,73.7841 L221,77.7841 C221,81.7841 217,85.7841 213,85.7841 L175,85.7841 C171,85.7841 167,81.7841 167,77.7841 L167,73.7841 C167,65.7841 175,57.7841 183,57.7841 C187,61.7841 190,61.7841 194,61.7841 " fill="#FFFFFF" style="stroke: #0F172A; stroke-width: 1.5;"/><text fill="#000000" font-family="Noto Sans" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="53" x="167.5" y="100.1122">Visitatore</text><path d="M354,310.4041 L354,374.8841 L618,374.8841 L618,320.4041 L608,310.4041 L354,310.4041 " fill="#FEF3C7" style="stroke: #B45309; stroke-width: 1.0;"/><path d="M608,310.4041 L608,320.4041 L618,320.4041 L608,310.4041 " fill="#FEF3C7" style="stroke: #B45309; stroke-width: 1.0;"/><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="217" x="360" y="326.0941">Esploratore e Autore sono ruoli che lo stesso</text><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="243" x="360" y="339.7141">utente registrato assume rispetto a una missione:</text><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="157" x="360" y="353.3341">chi vi partecipa e chi l'ha creata.</text><text fill="#000000" font-family="Noto Sans" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="199" x="360" y="366.9541">L'Amministratore ha privilegi di gestione.</text><!--MD5=[7e683cb3167d9244327dc6d3b53e93e6]
+reverse link Reg to Esp--><path d="M194,264.3441 C194,277.2941 194,290.6541 194,302.5541 " fill="none" id="Reg&lt;-Esp" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="187,264.7941,194,244.7941,201,264.7941,187,264.7941" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[0deb3c3aae5eb954c9b9455a6b64c577]
+reverse link Reg to Aut--><path d="M233.34,260.5741 C243.19,274.6741 253.55,289.4941 262.68,302.5541 " fill="none" id="Reg&lt;-Aut" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="227.84,264.9241,222.12,244.5241,239.32,256.9041,227.84,264.9241" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[b249e50911695a388c83af4be6791b14]
+reverse link Reg to Adm--><path d="M148.87,259.6341 C137.15,274.0141 124.76,289.2041 113.87,302.5541 " fill="none" id="Reg&lt;-Adm" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="143.18,255.5341,161.25,244.4541,154.03,264.3841,143.18,255.5341" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[1f7d8f1296d7f73bc4bead2f9fd3cf18]
+reverse link Vis to Reg--><path d="M194,125.0041 C194,137.9541 194,151.3141 194,163.2041 " fill="none" id="Vis&lt;-Reg" style="stroke: #475569; stroke-width: 1.0;"/><polygon fill="none" points="187,125.4541,194,105.4541,201,125.4541,187,125.4541" style="stroke: #475569; stroke-width: 1.0;"/><!--MD5=[ba170477d808d7c11c614ff6c88ed34c]
+link Adm to GMN19--><path d="M109.42,302.7941 C123,286.5941 140.9,269.6641 161.5,260.9641 C225.38,234.0041 249.92,245.4541 317.5,260.9641 C359.01,270.4941 402.16,291.6641 434.4,310.0541 " fill="none" id="Adm-GMN19" style="stroke: #475569; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[9bea6ce32e4f7353bce5c9d241e37e3f]
+link Esp to Tempo--><!--MD5=[dc392254388f9fd8b4816e85713ed90f]
+link Tempo to Mail--><!--MD5=[20bd8b71fadb66042af98371fb8dd1cd]
+link Mail to Osm--><!--MD5=[a947faa7570ee219152dee771b865ceb]
+link Osm to Geo--><!--MD5=[37c5d534904e2f98e4ff41f699c9ffe2]
+link Geo to Wiki--><!--MD5=[60b2dd5fd31f35d2d183a61c687be028]
+@startuml uc-00-attori
+skinparam defaultFontName "Noto Sans"
+skinparam defaultFontSize 12
+skinparam shadowing false
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+skinparam ArrowColor #475569
+skinparam ArrowFontSize 10
+skinparam ArrowFontColor #475569
+skinparam usecase {
+  BackgroundColor #EEF2FF
+  BorderColor #4F46E5
+  FontColor #0F172A
+}
+skinparam actor {
+  BorderColor #0F172A
+  BackgroundColor #FFFFFF
+}
+skinparam rectangle {
+  BorderColor #94A3B8
+  FontColor #334155
+  FontStyle bold
+}
+skinparam note {
+  BackgroundColor #FEF3C7
+  BorderColor #B45309
+  FontSize 10
+}
+title Attori di SideQuest e loro generalizzazioni
+
+together {
+  actor "Esploratore" as Esp
+  actor "Autore" as Aut
+  actor "Amministratore" as Adm
+}
+actor "Utente registrato" as Reg
+actor "Visitatore" as Vis
+
+Esp -up-|> Reg
+Aut -up-|> Reg
+Adm -up-|> Reg
+Reg -up-|> Vis
+
+note right of Adm
+  Esploratore e Autore sono ruoli che lo stesso
+  utente registrato assume rispetto a una missione:
+  chi vi partecipa e chi l'ha creata.
+  L'Amministratore ha privilegi di gestione.
+end note
+
+together {
+  actor "Tempo" as Tempo <<sistema>>
+  actor "Servizio email" as Mail <<sistema esterno>>
+  actor "Servizio di mappe\n(OpenStreetMap)" as Osm <<sistema esterno>>
+  actor "Geolocalizzazione\ndel browser" as Geo <<sistema esterno>>
+  actor "Servizio di arricchimento\n(Wikipedia)" as Wiki <<sistema esterno>>
+}
+Esp -[hidden]down- Tempo
+Tempo -[hidden]right- Mail
+Mail -[hidden]right- Osm
+Osm -[hidden]right- Geo
+Geo -[hidden]right- Wiki
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Java Version: 24+36-3646
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
