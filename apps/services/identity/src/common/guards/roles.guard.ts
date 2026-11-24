@@ -1,6 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '../../users/user.js';
+import type { Role } from '../../users/user.js';
 
 export const Roles = Reflector.createDecorator<Role[]>();
 

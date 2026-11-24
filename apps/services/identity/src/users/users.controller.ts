@@ -4,6 +4,7 @@ import { Can } from '@nestjs/authorization';
 
 import type { User } from './user.js';
 import { UsersService } from './users.service.js';
+import { Roles } from '../common/guards/roles.guard.js';
 
 @Controller('')
 export class UsersController {
@@ -24,9 +25,10 @@ export class UsersController {
   }
 
   @Delete('admin/users/:id')
-    @HttpCode(204)
-    @Can.Anyone() //Controllo che sia admin nel service
-    async deleteUserById(@Param('id') id: string, @CurrentUser() currentUser: User) {
-      await this.usersService.deleteUserById(id, currentUser);
-    }
+  @Roles(['admin'])
+  @HttpCode(204)
+  @Can.Anyone()
+  async deleteUserById(@Param('id') id: string, @CurrentUser() currentUser: User) {
+    await this.usersService.deleteUserById(id, currentUser);
+  }
 }
