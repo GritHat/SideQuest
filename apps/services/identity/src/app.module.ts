@@ -12,6 +12,7 @@ import { JwksModule } from './auth/jwks.module.js';
 import { UsersModule } from './users/users.module.js';
 import { PrismaRefreshTokenStore } from './prisma/prisma.refreshtoken.store.js';
 import { PrismaEmailTokenStore } from './prisma/prisma.email-token.store.js';
+import { NoSessionStore } from './prisma/no-session.store.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envSchema } from './config/env.schema.js';
@@ -39,6 +40,10 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
         emailVerification: {
           url: config.getOrThrow<string>('EMAIL_VERIFICATION_URL'),
           ttl: '24h',
+        },
+        passwordReset: {
+          url: config.getOrThrow<string>('PASSWORD_RESET_URL'),
+          ttl: '1h',
         },
       }),
       inject: [ConfigService],
@@ -68,6 +73,7 @@ import { ProblemDetailsFilter } from './common/problem-details.filter.js';
   providers: [
     PrismaRefreshTokenStore,
     PrismaEmailTokenStore,
+    NoSessionStore,
     { provide: APP_GUARD, useClass: ThrottlerGuard },
     { provide: APP_FILTER, useClass: ProblemDetailsFilter },
   ],

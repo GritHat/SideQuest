@@ -41,6 +41,8 @@ The API listens on `http://localhost:3000/api/identity`. In development, Swagger
 | `DELETE /admin/users/:id` | Admin | Delete a user and revoke all their sessions |
 | `POST /email/verify` | Public · 10/min | Verify the address with the token from the emailed link (single use) |
 | `POST /email/verification` | Authenticated · 3/min | Send the verification link again (409 if already verified) |
+| `POST /password/forgot` | Public · 3/min | Request a single-use password reset link by email (always 202) |
+| `POST /password/reset` | Public · 10/min | Reset the password with the token from the emailed link (single use, revokes all sessions) |
 | `GET /health` | Public | Health check |
 
 Outside the prefix, `GET /.well-known/jwks.json` (public, cached 5 minutes) publishes the RS256 public key with its `kid`, so the other services verify access tokens locally.
@@ -53,6 +55,14 @@ is a standalone preview) POSTs the token to `/api/identity/email/verify`.
 Without `SMTP_URL`, emails are written to the service log, so the demo needs no
 mail server: copy the link from the log. Set `SMTP_URL` (for example
 `smtp://user:pass@host:587`) to deliver real emails.
+
+## Password reset
+
+`POST /api/identity/password/forgot` always returns `202 Accepted` and, for `ACTIVE`
+accounts, sends a single-use reset link valid for 1 hour to `PASSWORD_RESET_URL?token=…`.
+That page POSTs `{ token, password }` to `/api/identity/password/reset`, which stores the
+new password hashed with Argon2id, revokes all existing sessions, and marks the email
+address verified.
 
 ## Demo accounts
 

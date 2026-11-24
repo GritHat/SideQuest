@@ -13,6 +13,7 @@ describe('envSchema', () => {
       NODE_ENV: 'development',
       PORT: 3000,
       EMAIL_VERIFICATION_URL: 'http://localhost:5173/verify-email',
+      PASSWORD_RESET_URL: 'http://localhost:5173/reset-password',
       TRUST_PROXY: false,
     });
   });
