@@ -71,13 +71,11 @@ describe('PasswordResetMailer', () => {
     };
     const mailer = { send: vi.fn().mockResolvedValue(undefined) };
     const registry = { registerHandler: vi.fn() };
-    const storage = { registerSource: vi.fn() };
 
     const handler = new PasswordResetMailer(
       usersRepository as never,
       mailer as never,
       registry as never,
-      storage as never,
     );
 
     return {
@@ -85,19 +83,15 @@ describe('PasswordResetMailer', () => {
       usersRepository,
       mailer,
       registry,
-      storage,
     };
   }
 
   it('registers itself as the passwordReset handler', () => {
-    const { handler, registry, storage } = setup();
+    const { handler, registry } = setup();
     expect(registry.registerHandler).toHaveBeenCalledWith(
       'passwordReset',
       handler,
     );
-    expect(storage.registerSource).toHaveBeenCalledWith({
-      sessions: expect.any(Object),
-    });
   });
 
   it('returns the account only for ACTIVE users', async () => {
