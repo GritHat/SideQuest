@@ -14,10 +14,10 @@ Accounts, credentials, sessions and access tokens for SideQuest (see `docs/MANIF
 ## Local setup
 
 ```bash
-# from the repository root: start PostgreSQL (port 5433, see compose.yaml)
-docker compose up -d postgres
+# from the repository root: start PostgreSQL (port 5433, see infra/compose.yaml)
+docker compose -f infra/compose.yaml up -d postgres
 
-cd sidequest/backend/identity-service
+cd apps/services/identity
 cp .env.example .env
 npm ci
 npm run keys:generate                 # keys/private.pem (0600) and keys/public.pem, git-ignored

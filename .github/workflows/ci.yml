@@ -15,13 +15,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  identity-service:
-    name: identity-service
+  identity:
+    name: identity
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     defaults:
       run:
-        working-directory: sidequest/backend/identity-service
+        working-directory: apps/services/identity
     services:
       # Empty database used only to check that the migrations produce the Prisma schema.
       postgres:
@@ -43,7 +43,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
-          cache-dependency-path: sidequest/backend/identity-service/package-lock.json
+          cache-dependency-path: apps/services/identity/package-lock.json
 
       - name: Install (also generates the Prisma client)
         run: npm ci
@@ -64,7 +64,7 @@ jobs:
         run: |
           npm run openapi:generate
           if ! git diff --exit-code -- openapi.json; then
-            echo "::error file=sidequest/backend/identity-service/openapi.json::openapi.json is stale: run 'npm run openapi:generate' and commit it."
+            echo "::error file=apps/services/identity/openapi.json::openapi.json is stale: run 'npm run openapi:generate' and commit it."
             exit 1
           fi
 
@@ -74,7 +74,7 @@ jobs:
         run: |
           npx prisma migrate deploy
           if ! npx prisma migrate diff --from-config-datasource --to-schema prisma/schema.prisma --exit-code; then
-            echo "::error file=sidequest/backend/identity-service/prisma/schema.prisma::The schema changed without a migration: run 'npx prisma migrate dev --name <change>' and commit it."
+            echo "::error file=apps/services/identity/prisma/schema.prisma::The schema changed without a migration: run 'npx prisma migrate dev --name <change>' and commit it."
             exit 1
           fi
 
