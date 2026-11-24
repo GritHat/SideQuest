@@ -59,29 +59,19 @@ export class PasswordResetMailer extends PasswordResetHandler {
     storage.registerSource({ sessions: NOOP_SESSION_STORE });
   }
 
-  async findUser(
-    email: string,
-  ): Promise<{
-    id: string;
-    email: string;
-    passwordHash: string | null;
-  } | null> {
+  async findUser( email: string,): Promise<{ id: string; email: string; passwordHash: string | null } | null> {
     const found = await this.usersRepository.findCredentialsByEmail(email);
     if (!found || found.user.status !== 'ACTIVE') {
       return null;
     }
-    return {
-      id: found.user.id,
-      email: found.user.email,
-      passwordHash: found.passwordHash,
-    };
+    return { id: found.user.id,email: found.user.email,passwordHash: found.passwordHash};
   }
 
   async send(link: PasswordResetLink): Promise<void> {
     await this.mailer.send(PasswordResetMail, { to: link.email, data: link });
   }
 
-  updatePassword(userId: string, passwordHash: string): Promise<void> {
-    return this.usersRepository.updatePasswordHash(userId, passwordHash);
+  async updatePassword(userId: string, passwordHash: string): Promise<void> {
+    await this.usersRepository.updatePasswordHash(userId, passwordHash);
   }
 }
