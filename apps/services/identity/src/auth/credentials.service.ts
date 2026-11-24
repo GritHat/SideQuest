@@ -15,9 +15,13 @@ export class CredentialsService {
 
   constructor(private readonly usersRepository: UsersRepository) {}
 
+  hashPassword(password: string): Promise<string> {
+    return argon2.hash(password, ARGON2_OPTIONS);
+  }
+
   private getDummyHash(): Promise<string> {
     if (!this.dummyHashPromise) {
-      this.dummyHashPromise = argon2.hash('dummy-password-for-timing', ARGON2_OPTIONS);
+      this.dummyHashPromise = this.hashPassword('dummy-password-for-timing');
     }
     return this.dummyHashPromise;
   }
@@ -32,7 +36,7 @@ export class CredentialsService {
     try {
       return await this.usersRepository.create(email, {
         username,
-        passwordHash: await argon2.hash(password, ARGON2_OPTIONS),
+        passwordHash: await this.hashPassword(password),
       });
     } catch (error) {
       if ((error as { code?: string })?.code === 'P2002') {
@@ -54,7 +58,7 @@ export class CredentialsService {
     if (argon2.needsRehash(found.passwordHash)) {
       await this.usersRepository.updatePasswordHash(
         found.user.id,
-        await argon2.hash(password, ARGON2_OPTIONS),
+        await this.hashPassword(password),
       );
     }
 
