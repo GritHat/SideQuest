@@ -1,6 +1,6 @@
 # SideQuest · Manifesto architetturale
 
-> **Stato:** approvato · **Versione:** 1.0 · **Data:** 22/11/2026
+> **Stato:** approvato · **Versione:** 1.1 · **Data:** 24/11/2026
 > **Fonti:** traccia ufficiale *SideQuest – Progetto Integrato 2026-2027* (prevale sempre); *SideQuest – Scelte architetturali* Draft v1.0 (le sue proposte qui diventano decisioni).
 > **Modalità:** progetto integrato (TECWEB + INGSW) · gruppo di 3 · **percorso anticipato** · pacchetti **D** (R16–R18) ed **E** (R19–R21) · 12 requisiti.
 
@@ -83,7 +83,7 @@ Busta dell'evento come nel documento §12.2 (`eventId` UUIDv7, `occurredAt`, `pr
 | 11 | Real time | **SSE** + inbox + fallback polling | WebSocket; solo polling |
 | 12 | Prove fotografiche | **Postgres (`evidence_blobs`, `bytea`) dietro `EvidenceStoragePort`**: massimo 5 MB, MIME verificato sui byte iniziali, lettura solo per gli autorizzati. Salvataggio atomico con i metadati, quindi niente oggetti orfani | **MinIO** (Community Edition senza immagini ufficiali e non più mantenuta da fine 2025); filesystem |
 | 13 | Test | §7 | Solo E2E; solo unit |
-| 14 | Repository, CI, deploy | **Monorepo pnpm workspaces + Turborepo**; **Docker Compose** (obbligatorio per INGSW) con healthcheck e seed; **GitHub Actions**; **SonarQube Cloud** per il backend | Kubernetes; solo `npm run dev` |
+| 14 | Repository, CI, deploy | **Monorepo pnpm workspaces + Turborepo**; **Docker Compose** (obbligatorio per INGSW) con healthcheck e seed; **GitHub Actions**; **SonarQube Cloud** per il backend. Flusso dei branch: ADR-19 (§8) | Kubernetes; solo `npm run dev`; squash verso `development` |
 | 15 | Consistenza | Transazione locale + outbox | Saga; 2PC |
 | 16 | CQRS | **Selettivo**: proiezioni in Engagement (classifiche, statistiche) e `user_profiles`; nessun event sourcing | Event sourcing; CRUD solo sincrono |
 | 17 | Gateway | **Caddy** come reverse proxy sottile; preserva `Host`, imposta `X-Forwarded-For` | BFF; service mesh |
@@ -147,7 +147,7 @@ infra/{compose.yaml,caddy/} · tests/e2e · docs/{adr,requirements,architecture,
 ```
 
 - `packages/messaging` contiene **solo** infrastruttura di protocollo (busta degli eventi, relay outbox, consumer inbox). Nessuna logica di dominio.
-- **Branch:** `main` (protetto, solo checkpoint) ← `development` (protetto, integrazione) ← `feature/*`, `fix/*`, `docs/*`. Squash verso `development`, merge commit verso `main`, un tag per ogni checkpoint. Le regole operative sono nella *Guida Git e GitHub*.
+- **Branch (ADR-19):** `main` (protetto, solo checkpoint) ← `development` (protetto, integrazione) ← `feature/*`, `fix/*`, `docs/*`. **Merge commit** sia verso `development` sia verso `main`; squash e rebase sono disabilitati. I branch di lavoro restano attivi dopo il merge finché il requisito è aperto, non si riscrivono (niente rebase né force push) e si riallineano con `git merge origin/development`. Ogni commit segue Conventional Commits. `development` entra in `main` solo ai checkpoint e quando sono raggiunti i quality goal, con un tag per ogni checkpoint. Le regole operative sono nella *Guida Git e GitHub*.
 - **PR:** al massimo circa 400 righe escluse quelle generate; requisito Rxx nel titolo o nella descrizione; Definition of Done del documento §7.4.
 - **Avvio:** `docker compose up` avvia tutto, migrazioni e seed compresi. Account demo: `admin`, `moderator`, `author`, `explorer`.
 - **Versioni:** Node 24 LTS; pnpm fissato in `packageManager`; dipendenze con lockfile; nessun aggiornamento di major dopo l'1/03/2027. Le versioni esatte sono in `docs/tech-stack.md`.
@@ -167,3 +167,4 @@ Una PR che viola il manifesto senza questo percorso **non si approva**, anche se
 | Versione | Data | Modifica |
 |---|---|---|
 | 1.0 | 22/11/2026 | Prima versione: scelte definitive dalle opzioni del documento *Scelte architetturali* Draft v1.0, riallineate alla traccia ufficiale |
+| 1.1 | 24/11/2026 | ADR-19: merge commit al posto dello squash verso `development`; branch di lavoro persistenti e mai riscritti |
