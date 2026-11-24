@@ -2,10 +2,12 @@ import { createPublicKey, generateKeyPairSync, randomUUID, verify } from 'node:c
 import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { AuthenticationEvents } from '@nestjs/authentication';
 import type { NestExpressApplication } from '@nestjs/platform-express';
-import { InMemoryMailTransport, MailTransport } from '@nestjs/mail';
+import { InMemoryMailTransport, MailTransport, type MailMessage } from '@nestjs/mail';
 import { Test } from '@nestjs/testing';
 import { ThrottlerStorage } from '@nestjs/throttler';
+import { filter, firstValueFrom } from 'rxjs';
 import request from 'supertest';
 import { inject } from 'vitest';
 
@@ -31,7 +33,25 @@ const { UsersService } = await import('../src/users/users.service.js');
 
 const PASSWORD = 'Abcdefgh12!x';
 let app: NestExpressApplication;
-const mailbox = new InMemoryMailTransport();
+/**
+ * The in-memory mailbox, plus `nextSend()`: a promise that resolves once the transport has handled
+ * the next mail (sent or failed). Some mails leave in the background (password reset), so the
+ * tests wait for this signal instead of sleeping. Call it BEFORE the request that sends the mail.
+ */
+class AwaitableMailbox extends InMemoryMailTransport {
+  readonly #waiters: Array<() => void> = [];
+  override async send(message: MailMessage) {
+    try {
+      return await super.send(message);
+    } finally {
+      for (const resolve of this.#waiters.splice(0)) resolve();
+    }
+  }
+  nextSend(): Promise<void> {
+    return new Promise((resolve) => this.#waiters.push(resolve));
+  }
+}
+const mailbox = new AwaitableMailbox();
 const http = () => request(app.getHttpServer());
 
 /** Cookie name → { value, attributes } from a response's Set-Cookie headers. */
@@ -294,71 +314,163 @@ describe('email verification', () => {
 
 describe('password reset', () => {
   const NEW_PASSWORD = 'NewPassword99!z';
+  const prisma = () => app.get(PrismaService);
+  const forgot = (body: object) => http().post('/api/identity/password/forgot').send(body);
+  const reset = (token: string, password = NEW_PASSWORD) =>
+    http().post('/api/identity/password/reset').send({ token, password });
 
-  async function waitForResetLink(email: string): Promise<URL> {
-    const deadline = Date.now() + 2_000;
-    while (Date.now() < deadline) {
-      try {
-        return mailbox.assertSent({ to: email }).link(/reset-password/);
-      } catch {
-        await new Promise((r) => setTimeout(r, 25));
-      }
-    }
-    return mailbox.assertSent({ to: email }).link(/reset-password/);
+  /**
+   * Resolves when the background lookup for `email` is over. For an unknown or non-ACTIVE
+   * account it is the last thing the library does, so afterwards no mail can still leave.
+   * Call it BEFORE the request.
+   */
+  function resetRequested(email: string) {
+    return firstValueFrom(
+      app
+        .get(AuthenticationEvents)
+        .events$.pipe(filter((e) => e.type === 'password-reset-requested' && e.email === email.toLowerCase())),
+    );
   }
 
-  it('resets the password with Argon2id, revokes existing sessions, marks email verified, and is single-use', async () => {
-    const { account, id, login } = await registerAndLogin();
-    mailbox.clear();
+  /** Asks for a link and returns its token, waiting for the mail instead of sleeping. */
+  async function requestResetToken(email: string) {
+    const sent = mailbox.nextSend();
+    await forgot({ email }).expect(202);
+    await sent;
+    return mailbox.assertSent({ to: email }).link(/reset-password/).searchParams.get('token') ?? '';
+  }
 
-    await http().post('/api/identity/password/forgot').send({ email: account.email }).expect(202);
-    const link = await waitForResetLink(account.email);
-    expect(link.origin).toBe('http://localhost:5173');
-    const token = link.searchParams.get('token') ?? '';
+  beforeEach(() => mailbox.clear());
 
-    const reset = await http()
-      .post('/api/identity/password/reset')
-      .send({ token, password: NEW_PASSWORD })
-      .expect(200);
-    expect(reset.body).toEqual({ ok: true });
+  describe('POST /password/forgot', () => {
+    it('202 with no body; the link goes to PASSWORD_RESET_URL at the address stored for the account', async () => {
+      const { account } = await registerAndLogin();
+      mailbox.clear();
 
-    // Stored hash must remain Argon2id (RNF-01).
-    const row = await app.get(PrismaService).user.findUniqueOrThrow({ where: { id } });
-    expect(row.passwordHash).toMatch(/^\$argon2id\$/);
-    expect(row.emailVerified).toBe(true);
+      const sent = mailbox.nextSend();
+      const res = await forgot({ email: account.email.toUpperCase() }).expect(202);
+      expect(res.text).toBe('');
+      await sent;
 
-    // Old refresh token is revoked and old password no longer works.
-    await http().post('/api/identity/refresh').set('Cookie', cookieHeader(login, 'sq_refresh')).expect(401);
-    await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(401);
+      const link = mailbox.assertSent({ to: account.email }).link(/reset-password/);
+      expect(`${link.origin}${link.pathname}`).toBe('http://localhost:5173/reset-password');
+      expect(link.searchParams.get('token')).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    });
 
-    // New password works for login.
-    await http().post('/api/identity/login').send({ email: account.email, password: NEW_PASSWORD }).expect(200);
+    it('the same 202 for an unknown address and for a suspended account, and no mail is sent', async () => {
+      const unknown = 'nobody@sidequest.test';
+      const done = resetRequested(unknown);
+      await forgot({ email: unknown }).expect(202);
+      await done;
+      mailbox.assertNotSent({ to: unknown });
 
-    // Single-use link.
-    const reused = await http()
-      .post('/api/identity/password/reset')
-      .send({ token, password: 'AnotherPass88!w' })
-      .expect(400);
-    expect(reused.headers['content-type']).toMatch(/problem\+json/);
+      const { account, id } = await registerAndLogin();
+      await prisma().user.update({ where: { id }, data: { status: 'SUSPENDED' } });
+      mailbox.clear();
+      const suspendedDone = resetRequested(account.email);
+      await forgot({ email: account.email }).expect(202);
+      await suspendedDone;
+      mailbox.assertNotSent({ to: account.email });
+    });
+
+    it('400 problem+json for an invalid address or unknown fields', async () => {
+      const invalid = await forgot({ email: 'not-an-email' }).expect(400);
+      expect(invalid.headers['content-type']).toMatch(/problem\+json/);
+      await forgot({ email: 'a@sidequest.test', role: 'admin' }).expect(400);
+    });
+
+    it('answers 202 even when the mail server fails, and the next request works', async () => {
+      const { account } = await registerAndLogin();
+      mailbox.clear();
+
+      mailbox.failNext(new Error('SMTP down'));
+      const failed = mailbox.nextSend();
+      await forgot({ email: account.email }).expect(202);
+      await failed;
+      mailbox.assertNotSent({ to: account.email });
+
+      expect(await requestResetToken(account.email)).toMatch(/^[A-Za-z0-9_-]{43}$/);
+    });
+
+    it('rate limit: the fourth request within a minute gets 429', async () => {
+      const codes: number[] = [];
+      for (let i = 0; i < 4; i++) {
+        codes.push((await forgot({ email: `probe_${i}@sidequest.test` })).status);
+      }
+      expect(codes).toEqual([202, 202, 202, 429]);
+    });
   });
 
-  it('answers 202 for unknown or suspended accounts without sending mail, and rejects weak passwords', async () => {
-    mailbox.clear();
-    await http().post('/api/identity/password/forgot').send({ email: 'nobody@sidequest.test' }).expect(202);
+  describe('POST /password/reset', () => {
+    it('stores an Argon2id hash, signs out every session and marks the address verified', async () => {
+      const { account, id, login } = await registerAndLogin();
+      const token = await requestResetToken(account.email);
 
-    const { account, id } = await registerAndLogin();
-    mailbox.clear();
-    await app.get(UsersService).changeStatus(id, 'SUSPENDED', { id: 'admin', roles: ['admin'] } as never);
-    await http().post('/api/identity/password/forgot').send({ email: account.email }).expect(202);
+      const res = await reset(token).expect(200);
+      expect(res.body).toEqual({ ok: true });
 
-    await new Promise((r) => setTimeout(r, 100));
-    mailbox.assertNotSent({ to: 'nobody@sidequest.test' });
-    mailbox.assertNotSent({ to: account.email });
+      const row = await prisma().user.findUniqueOrThrow({ where: { id } });
+      expect(row.passwordHash).toMatch(/^\$argon2id\$/);
+      expect(row.emailVerified).toBe(true);
 
-    const weak = await http()
-      .post('/api/identity/password/reset')
-      .send({ token: 'a'.repeat(43), password: 'weakpassword' })
-      .expect(400);
-    expect(weak.headers['content-type']).toMatch(/problem\+json/);
+      // The old refresh token is revoked, the old password no longer works, the new one does.
+      await http().post('/api/identity/refresh').set('Cookie', cookieHeader(login, 'sq_refresh')).expect(401);
+      await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(401);
+      await http().post('/api/identity/login').send({ email: account.email, password: NEW_PASSWORD }).expect(200);
+    });
+
+    it('a link works only once', async () => {
+      const { account } = await registerAndLogin();
+      const token = await requestResetToken(account.email);
+
+      await reset(token).expect(200);
+      const reused = await reset(token, 'AnotherPass88!w').expect(400);
+      expect(reused.headers['content-type']).toMatch(/problem\+json/);
+      await http().post('/api/identity/login').send({ email: account.email, password: NEW_PASSWORD }).expect(200);
+    });
+
+    it('a weak password gets 400 and does not burn the link', async () => {
+      const { account } = await registerAndLogin();
+      const token = await requestResetToken(account.email);
+
+      const weak = await reset(token, 'weakpassword').expect(400);
+      expect(weak.headers['content-type']).toMatch(/problem\+json/);
+      await reset(token).expect(200);
+    });
+
+    it('400 for an unknown token and for an expired one', async () => {
+      await reset('a'.repeat(43)).expect(400);
+
+      const { account, id } = await registerAndLogin();
+      const token = await requestResetToken(account.email);
+      // Instead of waiting an hour, move the expiry into the past in the database.
+      await prisma().emailToken.updateMany({
+        where: { userId: id, purpose: 'password-reset' },
+        data: { expiresAt: new Date(Date.now() - 1_000) },
+      });
+      await reset(token).expect(400);
+    });
+
+    it('after a reset, the other links sent to the same account stop working', async () => {
+      const { account } = await registerAndLogin();
+      const first = await requestResetToken(account.email);
+      const second = await requestResetToken(account.email);
+      expect(second).not.toBe(first);
+
+      await reset(second).expect(200);
+      await reset(first, 'AnotherPass88!w').expect(400);
+    });
+
+    it('a link stops working if the account is suspended in the meantime', async () => {
+      const { account, id } = await registerAndLogin();
+      const token = await requestResetToken(account.email);
+      await prisma().user.update({ where: { id }, data: { status: 'SUSPENDED' } });
+
+      await reset(token).expect(400);
+      const row = await prisma().user.findUniqueOrThrow({ where: { id } });
+      expect(row.passwordHash).not.toBeNull();
+      await prisma().user.update({ where: { id }, data: { status: 'ACTIVE' } });
+      await http().post('/api/identity/login').send({ email: account.email, password: PASSWORD }).expect(200);
+    });
   });
 });
