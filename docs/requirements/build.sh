@@ -14,6 +14,9 @@ mkdir -p build
 
 if [[ -z "${NO_DIAGRAMS:-}" ]] && command -v plantuml >/dev/null; then
   plantuml -tsvg -charset UTF-8 diagrams/uc-*.puml
+  # PlantUML disegna le note con archi di raggio zero ("A0,0 ..."), che non
+  # cambiano la forma ma WeasyPrint interpreta male, deformando le note.
+  sed -i -E 's/ A0,0 0 0 0 [0-9.]+,[0-9.]+//g' diagrams/uc-*.svg
 fi
 
 pandoc srs.md \
