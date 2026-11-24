@@ -457,7 +457,7 @@ Il caso d'uso termina con successo; l'Esploratore prosegue con UC-05.1 *Segnare 
 
 ## Mockup dell'interfaccia
 
-I mockup sono stati realizzati in Figma, lo strumento di prototipazione rapida scelto dal gruppo, per un viewport mobile di 390 × 844 px: è il caso d'uso principale della persona Chiara. Usano componenti e token di design comuni (pulsanti, badge, avvisi, righe obiettivo) che saranno riprodotti nella SPA. Ogni schermata riporta i passi del caso d'uso che illustra.
+I mockup sono stati realizzati in Figma, lo strumento di prototipazione rapida scelto dal gruppo, per un viewport mobile di 390 × 844 px: è il caso d'uso principale della persona Chiara. Usano componenti e token di design comuni (pulsanti, badge, avvisi, righe obiettivo) che saranno riprodotti nella SPA. La palette scura, con accento oro, riprende l'identità visiva concordata nel gruppo e garantisce un contrasto adeguato al livello AA (RNF-09). Ogni schermata riporta i passi del caso d'uso che illustra.
 
 ```{=html}
 <div class="mockups">
