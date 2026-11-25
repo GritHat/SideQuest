@@ -29,7 +29,7 @@
         ]
       },
       "delete": {
-        "operationId": "UsersController_deleteUser",
+        "operationId": "UsersController_deleteMe",
         "parameters": [],
         "responses": {
           "204": {
