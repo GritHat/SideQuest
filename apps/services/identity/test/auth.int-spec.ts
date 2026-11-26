@@ -192,16 +192,25 @@ describe('refresh and logout', () => {
 });
 
 describe('authorization', () => {
-  it('a plain user cannot delete another user (403, nothing deleted); an admin can (204)', async () => {
+  it('a plain user cannot delete another user or use the admin route on themselves (403); a moderator cannot (403); an admin can (204)', async () => {
     const victim = await registerAndLogin();
     const user = await registerAndLogin();
     await http().delete(`/api/identity/admin/users/${victim.id}`).set('Cookie', cookieHeader(user.login, 'sq_access')).expect(403);
+    await http().delete(`/api/identity/admin/users/${user.id}`).set('Cookie', cookieHeader(user.login, 'sq_access')).expect(403);
     expect(await app.get(PrismaService).user.findUnique({ where: { id: victim.id } })).not.toBeNull();
+    expect(await app.get(PrismaService).user.findUnique({ where: { id: user.id } })).not.toBeNull();
+
+    const mod = newAccount();
+    const createdMod = await http().post('/api/identity/register').send(mod).expect(201);
+    await app.get(PrismaService).user.update({ where: { id: createdMod.body.id }, data: { role: 'MODERATOR' } });
+    const modLogin = await http().post('/api/identity/login').send({ email: mod.email, password: PASSWORD }).expect(200);
+    await http().delete(`/api/identity/admin/users/${victim.id}`).set('Cookie', cookieHeader(modLogin, 'sq_access')).expect(403);
 
     const admin = newAccount();
     const created = await http().post('/api/identity/register').send(admin).expect(201);
     await app.get(PrismaService).user.update({ where: { id: created.body.id }, data: { role: 'ADMIN' } });
     const adminLogin = await http().post('/api/identity/login').send({ email: admin.email, password: PASSWORD }).expect(200);
+    await http().delete('/api/identity/admin/users/not-a-uuid').set('Cookie', cookieHeader(adminLogin, 'sq_access')).expect(400);
     await http().delete(`/api/identity/admin/users/${victim.id}`).set('Cookie', cookieHeader(adminLogin, 'sq_access')).expect(204);
     expect(await app.get(PrismaService).user.findUnique({ where: { id: victim.id } })).toBeNull();
   });
