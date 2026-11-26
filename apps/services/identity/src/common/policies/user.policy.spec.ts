@@ -31,10 +31,14 @@ describe('UserPolicy', () => {
   const admin = makeUser(ADMIN_ID, ['admin']);
 
   describe('before()', () => {
-    it.each([['delete' as const], ['manage' as const]])(
-      'short-circuits to true for admin on %s',
+    it('short-circuits to true for admin on manage', () => {
+      expect(policy.before(admin, 'manage')).toBe(true);
+    });
+
+    it.each([['deleteSelf' as const], ['manage' as const]])(
+      'returns undefined for non-admin on %s',
       (ability) => {
-        expect(policy.before(admin, ability)).toBe(true);
+        expect(policy.before(alice, ability)).toBeUndefined();
       },
     );
 
@@ -43,20 +47,16 @@ describe('UserPolicy', () => {
       ['plain user', alice],
       ['moderator', mod],
     ])('returns undefined (falls through to ability) for %s', (_, actor) => {
-      expect(policy.before(actor, 'delete')).toBeUndefined();
       expect(policy.before(actor, 'manage')).toBeUndefined();
     });
   });
 
-  describe('delete()', () => {
-    it('allows a user to delete their own account', () => {
-      expect(policy.delete(alice, ALICE_ID)).toBe(true);
-    });
-
-    it('denies deleting a different user and denies unauthenticated callers', () => {
-      expect(policy.delete(alice, BOB_ID)).toBe(false);
-      expect(policy.delete(null, ALICE_ID)).toBe(false);
-      expect(policy.delete(null, '')).toBe(false);
+  describe('deleteSelf()', () => {
+    it('allows any authenticated user and denies unauthenticated callers', () => {
+      expect(policy.deleteSelf(alice)).toBe(true);
+      expect(policy.deleteSelf(mod)).toBe(true);
+      expect(policy.deleteSelf(admin)).toBe(true);
+      expect(policy.deleteSelf(null)).toBe(false);
     });
   });
 

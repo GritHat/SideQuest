@@ -19,20 +19,15 @@ export class UsersController {
 
   /**
    * Any authenticated user may delete their own account.
-   * UserPolicy.delete(user, targetId) verifies ownership;
-   * admins are already allowed by the before() hook.
+    * The service receives the current user's ID, so ownership is enforced there.
    */
   @Delete('me')
   @HttpCode(204)
-  @Can(UserPolicy, 'delete', (ctx) => [ctx.switchToHttp().getRequest<{ user?: User }>().user?.id ?? ''])
+  @Can(UserPolicy, 'deleteSelf')
   async deleteMe(@CurrentUser() currentUser: User) {
     await this.usersService.deleteUserById(currentUser.id, currentUser);
   }
 
-  /**
-   * Admins only: UserPolicy.before() short-circuits to true for the 'admin'
-   * role, while manage() returns false for everyone else.
-   */
   @Delete('admin/users/:id')
   @HttpCode(204)
   @Can(UserPolicy, 'manage')

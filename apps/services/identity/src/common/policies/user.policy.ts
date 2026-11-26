@@ -1,7 +1,12 @@
 import { Policy } from '@nestjs/authorization';
 import type { Ability, PolicyBefore } from '@nestjs/authorization';
-
 import type { User } from '../../users/user.js';
+
+const isModerator = (user:User | null) => !!user?.roles.includes('moderator');
+const isAdmin = (user:User | null) => !!user?.roles.includes('admin');
+
+const nonBypassableAbilities: Ability<UserPolicy>[] = ['changeRole'];
+
 
 /**
  * Policy for user-management actions.
@@ -10,24 +15,27 @@ import type { User } from '../../users/user.js';
  * without needing an explicit check in each method. Non-admins fall through
  * to the individual ability that decides.
  */
+
 @Policy()
 export class UserPolicy implements PolicyBefore<User, Ability<UserPolicy>> {
   before(
     user: User | null,
-    _ability: Ability<UserPolicy>,
+    ability: Ability<UserPolicy>,
   ): boolean | undefined {
-    // Admins pass every check unconditionally.
-    if (user?.roles.includes('admin')) return true;
-    // Everyone else is evaluated ability by ability.
-    return undefined;
+    return !nonBypassableAbilities.includes(ability) && isAdmin(user)
+      ? true
+      : undefined;
   }
 
-  /** A user may delete their own account; admins are already allowed by before(). */
-  delete(user: User | null, targetId: string): boolean {
-    return !!user && user.id === targetId;
+  deleteSelf(user: User | null): boolean {
+    return user !== null;
   }
 
-  /** Admin-only actions: non-admins are always denied; admins pass via before(). */
+  changeRole(user: User | null, target: User): boolean {
+    if (isAdmin(target)) return false;
+    return (isModerator(user) || isAdmin(user)) && user?.id !== target.id;
+  }
+
   manage(_user: User | null): boolean {
     return false;
   }
